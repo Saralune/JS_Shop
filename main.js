@@ -2,6 +2,7 @@
 // recup des données
 
 const data="./data/art.json"
+
 let  articles= []
 
 fetch(data)
@@ -9,23 +10,43 @@ fetch(data)
    return response.json();
 })
 .then(jsondata => {
-    //console.log(jsondata.rows)
+  //  console.log(jsondata.rows[0])
 
- 
+    
     jsondata.rows.forEach(el => {
 
          articles.push(el)
 
-        console.log(el)
+       // console.log(el)
     });
     
 });
 
-    
-    console.log(Object.entries(articles))
+// articles.forEach(el => {
 
- console.log(articles)
-// console.log (articles)
+//    console.log(el)
+// });
+
+
+// for (const [key,value] of Object.entries(articles)) {
+//     console.log (`${key}: ${value}`);
+// }
+
+// for (let i = 0; i < articles.length; i++) {
+//     console.log(`${articles[i]}`)
+// }
+
+// for (let i = 0; i < articles.length; i++) {
+//     console.log(articles[i])
+// }
+
+//for(let value of Object.values(articles)){
+//    console.log(value);
+ // };
+   // console.log(Object.entries(articles))
+
+ //console.log(articles)
+ //console.log ()
 
 
 //constructeur de l'objet Article
