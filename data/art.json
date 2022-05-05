@@ -7,8 +7,8 @@
             "Brand": "Logitech",
             "UnitaryPrice": 85,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
-            
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl": "img/souris.jpg"
         },
         {
             "IdArticle": 2,
@@ -16,7 +16,8 @@
             "Brand": "Microhard",
             "UnitaryPrice": 49.5,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl": "img/clavier.jpg"
         },
         {
             "IdArticle": 3,
@@ -24,7 +25,8 @@
             "Brand": "Fenetres Vistouille",
             "UnitaryPrice": 100,
             "CatName": "Logiciel",
-            "Descriptions": "Toutes les solutions pour vous sentir mieux devant un bureau."
+            "Descriptions": "Toutes les solutions pour vous sentir mieux devant un bureau.",
+            "ImageUrl": "img/office.jpg"
         },
         {
             "IdArticle": 5,
@@ -32,7 +34,8 @@
             "Brand": "Syno",
             "UnitaryPrice": 65,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl": "img/cleUSB.jpg"
         },
         {
             "IdArticle": 6,
@@ -40,7 +43,8 @@
             "Brand": "PH",
             "UnitaryPrice": 1199,
             "CatName": "PC",
-            "Descriptions": "Ordinateur portable ou pas"
+            "Descriptions": "Ordinateur portable ou pas",
+            "ImageUrl": "img/portable.jpg"
         },
         {
             "IdArticle": 7,
@@ -48,7 +52,8 @@
             "Brand": "CETME",
             "UnitaryPrice": 250,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl": "img/CD.jpg"
         },
         {
             "IdArticle": 9,
@@ -56,7 +61,8 @@
             "Brand": "Logitech",
             "UnitaryPrice": 1500,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl": "img/CD.jpg"
         },
         {
             "IdArticle": 11,
@@ -64,7 +70,8 @@
             "Brand": "Syno",
             "UnitaryPrice": 105,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl":"img/casque.jpg"
         },
         {
             "IdArticle": 12,
@@ -72,7 +79,8 @@
             "Brand": "Logitech",
             "UnitaryPrice": 985,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl":"img/webcam.jpg"
         },
         {
             "IdArticle": 13,
@@ -80,7 +88,8 @@
             "Brand": "Logitech",
             "UnitaryPrice": 285,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl":"img/enceintesPC.jpg"
         },
         {
             "IdArticle": 14,
@@ -88,7 +97,8 @@
             "Brand": "Norton",
             "UnitaryPrice": 34.99,
             "CatName": "Logiciel",
-            "Descriptions": "Toutes les solutions pour vous sentir mieux devant un bureau."
+            "Descriptions": "Toutes les solutions pour vous sentir mieux devant un bureau.",
+            "ImageUrl":"img/antivirus.jpg"
         },
         {
             "IdArticle": 16,
@@ -96,7 +106,8 @@
             "Brand": "Tp-Link",
             "UnitaryPrice": 45,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl":"img/carteReseau.jpg"
         },
         {
             "IdArticle": 17,
@@ -104,7 +115,8 @@
             "Brand": "Asus",
             "UnitaryPrice": 45.99,
             "CatName": "Materiel info",
-            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur",
+            "ImageUrl":"img\tapisSouris.jpg"
         }
     ]
 }

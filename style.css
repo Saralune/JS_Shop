@@ -1,0 +1,8 @@
+.art{
+    border: 1px solid red;
+    max-width: 400px;
+}
+
+img{
+    max-height: 150px;
+}
