@@ -67,10 +67,12 @@ hr {
 .card {
     margin-bottom: 10px;
     align-items: center;
+    border: 3px solid #25677D !important;
 }
 
 .card-body {
     text-align: center;
+    place-content: space-between;
 }
 
 .art_img {
