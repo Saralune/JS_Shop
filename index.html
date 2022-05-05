@@ -36,6 +36,8 @@
         </div>
     </header>
 
+    <button id="addCard">Ajouter un article</button>
+
     <!-- Catgeroies & Articles -->
     <div class="d-flex justify-content-between cat_art">
         <!-- Categories -->
@@ -63,16 +65,17 @@
         </div>
 
         <!-- Articles -->
-        <!-- Faire des cards avec BS -->
-        <div class="d-flex flex-wrap justify-content-around">
+        <div class="d-flex flex-wrap justify-content-around" id="articles">
             <div class="card" style="width: 18rem;">
                 <img src="./img/casque.jpg" class="card-img-top art_img" alt="Casque Gamer">
                 <div class="card-body">
                     <h5 class="card-title">Casque Gamer</h5>
                     <p class="card-text">210 €</p>
-                    <button type="button" class="btn art-btn">AJouter au panier</button>
+                    <button type="button" id="idArticle" class="btn art-btn">AJouter au panier</button>
                 </div>
             </div>
+
+            
 
             <div class="card" style="width: 18rem;">
                 <img src="./img/souris.jpg" class="card-img-top art_img" alt="Souris Logitoch">
@@ -152,9 +155,9 @@
             <p class="p-footer">contact@debrouilletoi.com</p>
         </div>
     </footer>
-
+    
     <!-- Script Modal -->
-    <script src="./script_modal.js"></script>
+    <script src="./main.js"></script>
 
     <!-- Script Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
