@@ -1,0 +1,25 @@
+{
+    "table": "t_categories",
+    "rows": [
+        {
+            "IdCategory": 1,
+            "CatName": "PC",
+            "Descriptions": "Ordinateur portable ou pas"
+        },
+        {
+            "IdCategory": 2,
+            "CatName": "Smartphone",
+            "Descriptions": "Telephone de dernière génération avec écran tactile + applis"
+        },
+        {
+            "IdCategory": 3,
+            "CatName": "Materiel info",
+            "Descriptions": "Tout matériel informatique physique en lien avec un ordinateur"
+        },
+        {
+            "IdCategory": 4,
+            "CatName": "Logiciel",
+            "Descriptions": "Toutes les solutions pour vous sentir mieux devant un bureau."
+        }
+    ]
+}
