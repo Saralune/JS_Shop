@@ -45,6 +45,8 @@ createCard(article12);
 createCard(article13);
 createCard(article14);
 
+createLineCart(article11);
+
 // //Récupération des balises pour l'affichage
 // let id1=document.getElementById("id1")
 // let id2= document.getElementById("id2")
@@ -79,6 +81,10 @@ function addCaddy(params) {
     caddy.setItem('test',vari)
 }
 
+//Ajouter à addCady ??
+//Total panier
+document.getElementById("totalCart").innerHTML = "105 €"
+
 function createCard(article) {
   let divArticles = document.getElementById("articles");
 
@@ -111,7 +117,7 @@ function createCard(article) {
 
   //p card-text
   let pCardText = document.createElement("p");
-  pCardText.className = "card-text";
+  pCardText.className = "card-text bold-blue";
   pCardText.innerHTML = article.unitaryPrice + " €";
   divCardBody.appendChild(pCardText);
 
@@ -124,18 +130,59 @@ function createCard(article) {
   console.log(buttonCard.innerHTML);
 }
 
-function createLineCart(){
+function createLineCart(article){
+  let modalBody = document.getElementById("modalBody");
 
+  //div
+  let divBodyArt = document.createElement("div");
+  divBodyArt.className = "modal-body-art";
+  modalBody.appendChild(divBodyArt);
+
+  //img art
+  let imgCart = document.createElement("img")
+  imgCart.setAttribute("src", article.imageUrl)
+  imgCart.className = "modal-img-cart col-grid-1"
+  imgCart.alt = article.description
+  divBodyArt.appendChild(imgCart);
+
+  //p name
+  let pNameCart = document.createElement("p");
+  pNameCart.className = "col-grid-2"
+  pNameCart.innerHTML = article.description
+  divBodyArt.appendChild(pNameCart);
+
+  //p price
+  let pPriceCart = document.createElement("p");
+  pPriceCart.className = "col-grid-3 bold-blue"
+  pPriceCart.innerHTML = article.unitaryPrice + " €"
+  divBodyArt.appendChild(pPriceCart);
+
+  //p qty
+  let pQtyCart = document.createElement("p");
+  pQtyCart.className = "col-grid-4 bold-blue"
+  //////////////////////////////quantité dans le panier
+  pQtyCart.innerHTML = "Qté à changer"
+  divBodyArt.appendChild(pQtyCart);
+
+  //img garbage
+  let imgGarbage = document.createElement("img")
+  imgGarbage.setAttribute("src", "./img/delete.png")
+  imgGarbage.className = "col-grid-5"
+  imgGarbage.alt = "Supprimer du panier"
+  divBodyArt.appendChild(imgGarbage);
+
+  //hr
+  let hrCart = document.createElement("hr")
+  hrCart.className ="hr"
+  modalBody.appendChild(hrCart)
 }
 
-{/* <div class="modal-body-art">
-<img
-  src="./img/souris.jpg"
-  class="modal-img-cart col-grid-1"
-  alt=""
-/>
-<p class="col-grid-2">Souris Logitoch</p>
-<p class="col-grid-3">10 €</p>
-<p class="col-grid-4">Quantité</p>
-<img src="./img/delete.png" class="col-grid-5" alt="" />
-</div> */}
+//ce qu'il reste à relier à la page :
+// - supprimer du panier
+// - ajouter au panier
+// - afficher la qté dans le panier
+// - afficher le total de la commande
+// - passer commande
+// - modifier la quantité de l'affichage du panier sur la page d'accueil
+
+// - gérer les checkbox des catégories et l'affichage qui leur correspond
