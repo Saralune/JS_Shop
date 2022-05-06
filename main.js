@@ -1,14 +1,6 @@
 //constructeur de l'objet Article
 class Article {
-  constructor(
-    idArticle,
-    description,
-    brand,
-    unitaryPrice,
-    catName,
-    descriptionCat,
-    imageUrl
-  ) {
+  constructor( idArticle, description, brand, unitaryPrice, catName, descriptionCat, imageUrl ) {
     this.idArticle = idArticle;
     this.description = description;
     this.brand = brand;
@@ -45,6 +37,7 @@ createCard(article12);
 createCard(article13);
 createCard(article14);
 
+//créer la ligne article dans le panier
 createLineCart(article11);
 
 // //Récupération des balises pour l'affichage
@@ -90,7 +83,7 @@ function createCard(article) {
 
   // div card
   let divCard = document.createElement("div");
-  divCard.className = "card";
+  divCard.className = "card"; //d-none//////////////////////////////
   divCard.style = "width: 18rem;";
   divArticles.appendChild(divCard);
 
@@ -177,12 +170,31 @@ function createLineCart(article){
   modalBody.appendChild(hrCart)
 }
 
+function getArtCat(cat){ ///////////////////////////////////
+    document.getElementsByClassName(cat).style.display = "flex"
+}
+
+//document.getElementById('mycheckbox').checked=true;
+
+// Bind function to onclick event for checkbox
+document.getElementById('cat_mat-info').onclick = function() {
+    // access properties using this keyword
+    if ( this.checked ) {
+        // Fonction qui garde que les articles de la catégorie et display none les autres
+        getArtCat('');///////////////////////////////////////////////////////
+        // Returns true if checked
+        //alert( this.value );
+    } else {
+        // Returns false if not checked
+    }
+};
+
 //ce qu'il reste à relier à la page :
 // - supprimer du panier
 // - ajouter au panier
 // - afficher la qté dans le panier
 // - afficher le total de la commande
-// - passer commande
+// - passer commande -> alert
 // - modifier la quantité de l'affichage du panier sur la page d'accueil
 
 // - gérer les checkbox des catégories et l'affichage qui leur correspond
