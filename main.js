@@ -271,7 +271,6 @@ catMatInfo.addEventListener('click', function () {
 })
 
 
-
 // // Bind function to onclick event for checkbox
 // catMatInfo.onclick = function () {
 //     // access properties using this keyword
@@ -294,9 +293,9 @@ catMatInfo.addEventListener('click', function () {
 //ce qu'il reste à relier à la page :
 // - supprimer du panier
 // - ajouter au panier -- ok
-// - afficher la qté dans le panier -- ok
+// - afficher la qté dans le panier -- à voir
 // - afficher le total de la commande
 // - passer commande -> alert
-// - modifier la quantité de l'affichage du panier sur la page d'accueil -- bientot du coup
+// - modifier la quantité de l'affichage du panier sur la page d'accueil -- ok
 
 // - gérer les checkbox des catégories et l'affichage qui leur correspond
