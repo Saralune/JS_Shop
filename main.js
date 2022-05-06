@@ -104,6 +104,10 @@ let id16 = document.getElementById("id16")
 
 //Initialisation du local storage (panier)
 let caddy = window.localStorage;
+let qty_cart = document.getElementById("qty-cart")
+let caddySize = window.localStorage.length
+// - affichage du panier sur la page d'accueil
+qty_cart.innerHTML = caddySize
 
 function getArticleById(id) {
     for (let i = 0; i < listArticles.length; i++) {
@@ -114,11 +118,20 @@ function getArticleById(id) {
     };
 }
 
+console.log(getArticleById(11))
+
 //Ajout d'un article dans le panier
+
 function addCaddy(id) {
     createLineCart(getArticleById(id))
     caddy.setItem(id, getArticleById(id))
     alert("Votre article a bien été ajouté au panier")
+
+    // - affichage du panier sur la page d'accueil
+    // console.log(caddySize)
+    caddySize = window.localStorage.length
+    qty_cart.innerHTML = caddySize
+
 
     //Ajout de la quantité
     ///////////////////////////////////////////////////
@@ -126,7 +139,10 @@ function addCaddy(id) {
     //Total du panier
     //à changer en fonction du total des articles du panier///////////////////////////////
     document.getElementById("totalCart").innerHTML = "105 €"
+
 }
+
+
 
 //numéro de l'idArticle du dernier article.
 let lastId = listArticles[listArticles.length - 1].idArticle
@@ -292,10 +308,19 @@ catMatInfo.addEventListener('click', function () {
 
 //ce qu'il reste à relier à la page :
 // - supprimer du panier
+
+
+// - afficher la qté dans le panier  
+// - afficher le total de la commande
+// - passer commande -> alert
+
 // - ajouter au panier -- ok
 // - afficher la qté dans le panier -- à voir
 // - afficher le total de la commande
 // - passer commande -> alert
 // - modifier la quantité de l'affichage du panier sur la page d'accueil -- ok
 
+
+
 // - gérer les checkbox des catégories et l'affichage qui leur correspond
+
