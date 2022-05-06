@@ -44,37 +44,6 @@ createCard(article12);
 createCard(article13);
 createCard(article14);
 
-//init tabs of articles by cat
-let artCatMatInfo = []
-let artCatLog = []
-let artCatSmart = []
-let artCatPc = []
-
-//init articles by categories
-for (let i = 0; i < listArticles.length; i++) {
-    if (listArticles[i].catName == "Materiel info") {
-        artCatMatInfo.push(listArticles[i])
-    }
-
-    if (listArticles[i].catName == "Ordinateur portable ou pas") {
-        artCatPc.push(listArticles[i])
-    }
-
-    if (listArticles[i].catName == "") {
-        artCatSmart.push(listArticles[i])
-    }
-
-    if (listArticles[i].catName == "Logiciel") {
-        artCatLog.push(listArticles[i])
-    }
-}
-
-console.log("tableaux des catégories : ")
-console.log(artCatLog)
-console.log(artCatMatInfo)
-console.log(artCatPc)
-console.log(artCatSmart)
-console.log("================================")
 
 // //Récupération des balises pour l'affichage
 // let id1=document.getElementById("id1")
@@ -104,8 +73,16 @@ let id16 = document.getElementById("id16")
 
 //Initialisation du local storage (panier)
 let caddy = window.localStorage;
-let qty_cart = document.getElementById("qty-cart")
 let caddySize = window.localStorage.length
+
+let qty_cart = document.getElementById("qty-cart");
+let hr = document.getElementsByClassName('hr')
+
+//remet le panier à 0 au rechargement de la page
+if(caddySize > 0){
+  caddy.clear();
+}
+
 // - affichage du panier sur la page d'accueil
 qty_cart.innerHTML = caddySize
 
@@ -133,17 +110,13 @@ function addCaddy(id) {
     caddySize = window.localStorage.length
     qty_cart.innerHTML = caddySize
 
-
-    //Ajout de la quantité
-    ///////////////////////////////////////////////////
-
     //Total du panier
     //à changer en fonction du total des articles du panier///////////////////////////////
     let totalCart = document.getElementById("totalCart")
     let rep = parseFloat(totalCart.textContent)
     //console.log('rep', rep)
     let total = rep + obj.unitaryPrice
-    totalCart.innerHTML = total
+    totalCart.innerHTML = total + " €"
 }
 
 //numéro de l'idArticle du dernier article.
@@ -158,34 +131,6 @@ for (let i = 0; i < lastId + 1; i++) {
     }
 }
 
-
-let divArtCart = document.getElementsByClassName("modal-body-art")
-
-window.addEventListener('DOMContentLoaded', function(){
-  let poubelle = document.getElementsByClassName("col-grid-5")
-  if(!poubelle){
-    return;
-  }
-  // poubelle[0].addEventListener('click', function(){
-  //   divArtCart[item].remove()
-  // })
-})
-
-// poubelle.forEach(item => {
-//   item.addEventListener('click', function (){
-//     console.log(divArtCart[item])
-//     divArtCart[item].remove()
-//   })
-// })
-
-// for (let i = 0; i < 2; i++) {
-//     //alert('boucle')
-//     poubelle[i].addEventListener("click", function () {
-//         deleteFromCaddy(i)
-//         divArtCart[i].remove()
-//     })
-// }
-
 // function deleteCaddy(id) {
 //     caddy.getItem(id, getArticleById(id)).
 
@@ -197,7 +142,7 @@ function createCard(article) {
 
     // div card
     let divCard = document.createElement("div");
-    divCard.className = "card " + article.catName; //d-none//////////////////////////////
+    divCard.className = "card " + article.catName;
     divCard.style = "width: 18rem;";
     divArticles.appendChild(divCard);
 
@@ -220,8 +165,6 @@ function createCard(article) {
     cardTitle.innerHTML = article.description;
     divCardBody.appendChild(cardTitle);
 
-    //console.log(cardTitle.innerHTML);
-
     //p card-text
     let pCardText = document.createElement("p");
     pCardText.className = "card-text bold-blue";
@@ -235,25 +178,24 @@ function createCard(article) {
     buttonCard.id = article.idArticle;
     divCardBody.appendChild(buttonCard);
 
-    //console.log(buttonCard.innerHTML);
-
-
     //Ajout de l'article créé en ligne dans un tableau
     listArticles.push(article)
 }
 
 function createLineCart(article) {
     let modalBody = document.getElementById("modalBody");
+
     // count qty article_ligne
     let qty = 1
 
     if (window.localStorage.getItem(article.idArticle) != null) {
-        qty++
+        //qty++
         //p qty
-        let pQtyCart = document.getElementById("qty"+article.idArticle)
+        let pQtyCart = document.getElementById("qty" + article.idArticle)
+        let testQty = parseInt(pQtyCart.textContent)
+        //attention, pyqtyart string
+        pQtyCart.innerHTML = testQty + 1
         console.log('qtyart', pQtyCart.innerHTML)
-        //////////////////////////////quantité dans le panier
-         pQtyCart.innerHTML = qty
 
     } else {
         //div
@@ -280,24 +222,20 @@ function createLineCart(article) {
         pPriceCart.innerHTML = article.unitaryPrice + " €"
         divBodyArt.appendChild(pPriceCart);
 
-
-    // window.addEventListener('DOMContentLoaded', function(){
-    //   let poubelle = document.getElementsByClassName("col-grid-5")
-    //   console.log("poubelle length : " + poubelle.length)
-    // })
-
         //p qty
         let pQtyCart = document.createElement("p");
         pQtyCart.className = "col-grid-4 bold-blue"
-        pQtyCart.id="qty"+article.idArticle
-        //////////////////////////////quantité dans le panier
+        pQtyCart.id="qty" + article.idArticle
         pQtyCart.innerHTML = qty
+        console.log("qty : " + qty)
         divBodyArt.appendChild(pQtyCart);
 
         //img garbage
         let imgGarbage = document.createElement("img")
         imgGarbage.setAttribute("src", "./img/delete.png")
         imgGarbage.className = "col-grid-5"
+        imgGarbage.id = "000" + article.idArticle
+        console.log("imgGarbage.id : " + imgGarbage.id)
         imgGarbage.alt = "Supprimer du panier"
         divBodyArt.appendChild(imgGarbage);
 
@@ -309,15 +247,36 @@ function createLineCart(article) {
 
 }
 
+
 function deleteLineCaddy(){
   document.addEventListener('click', function(e){
-    console.log("target " + e.target)
-    console.log("id traget " + e.target.id)
+    let divArtCart = document.getElementsByClassName("modal-body-art")
+    
     if(e.target && e.target.className == "col-grid-5"){ 
-      caddy.removeItem(e.target.id); //e.target.id
-      
-      divArtCart[e.target.id].remove()
+      //récupère l'id de l'article à supprimer
+      let idToRemove = e.target.id.substr(3);
 
+      ////////////////
+      //ATtenion, ne fonctionne pas si je supprime un article et qu'il y en a moins que prévu !
+      //à rectifier
+
+
+      divArtCart[idToRemove - 1].remove() //j'enlève 1 pour retomber sur l'index 
+      hr[idToRemove - 1].remove()
+      caddy.removeItem(idToRemove);
+
+      //create alert "article supprimé"
+      let divOk = document.createElement('div')
+      divOk.className = "alert alert-success"
+      divOk.role = "alert"
+      divOk.innerHTML = "L'article a bien été supprimé"
+      document.getElementById("modalBody").appendChild(divOk)
+      //l'alerte disparait au bout de 5 secondes
+      setInterval(function() {
+        divOk.remove()
+      }, 5000)
+       ////////////////
+      //insertBefore(document.getElementsByClassName('hr')[0])
 
       //Ajouter une popup putôt que alert
       //alert("L'article a bien été supprimé de votre panier.")
