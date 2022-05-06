@@ -19,17 +19,17 @@ let catSmart = document.getElementById('cat_smart')
 
 // //Construction des articles
 let listArticles = []
-let article1 = new Article(1, "Souris", "Logitech", 85, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/souris.jpg")
-let article2 = new Article(2, "Clavier", "Microhard", 49.5, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/clavier.jpg")
-let article3 = new Article(3, "Système d'exploitation", "Fenetres Vistouille", 100, "Logiciel", "Toutes les solutions pour vous sentir mieux devant un bureau.", "img/office.jpg")
-let article5 = new Article(5, "Clé USB 8 To", "Syno", 65, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/cleUSB.jpg")
-let article6 = new Article(6, "Laptop", "PH", 1199, "PC", "Ordinateur portable ou pas", "img/portable.jpg")
-let article7 = new Article(7, "CD x 500", "CETME", 250, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/CD.jpg")
-let article9 = new Article(9, "DVD+R x 100", "Logitech", 1500, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/CD.jpg")
-let article11 = new Article(11, "Casque Audio", "Syno", 105, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/casque.jpg")
-let article12 = new Article(12, "Webcam", "Logitech", 985, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/webcam.jpg")
-let article13 = new Article(13, "Enceintes", "Logitech", 285, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/enceintesPC.jpg")
-let article14 = new Article(14, "Antivrus", "Norton", 34.99, "Logiciel", "Toutes les solutions pour vous sentir mieux devant un bureau.", "img/antivirus.jpg")
+let article1 = new Article(1, "Souris", "Logitech", 85, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/souris.jpg")
+let article2 = new Article(2, "Clavier", "Microhard", 49.5, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/clavier.jpg")
+let article3 = new Article(3, "Système d'exploitation", "Fenetres Vistouille", 100, "logiciel", "Toutes les solutions pour vous sentir mieux devant un bureau.", "img/office.jpg")
+let article5 = new Article(5, "Clé USB 8 To", "Syno", 65, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/cleUSB.jpg")
+let article6 = new Article(6, "Laptop", "PH", 1199, "pc", "Ordinateur portable ou pas", "img/portable.jpg")
+let article7 = new Article(7, "CD x 500", "CETME", 250, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/CD.jpg")
+let article9 = new Article(9, "DVD+R x 100", "Logitech", 1500, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/CD.jpg")
+let article11 = new Article(11, "Casque Audio", "Syno", 105, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/casque.jpg")
+let article12 = new Article(12, "Webcam", "Logitech", 985, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/webcam.jpg")
+let article13 = new Article(13, "Enceintes", "Logitech", 285, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/enceintesPC.jpg")
+let article14 = new Article(14, "Antivrus", "Norton", 34.99, "logiciel", "Toutes les solutions pour vous sentir mieux devant un bureau.", "img/antivirus.jpg")
 
 //création des articles côté front
 createCard(article1);
@@ -52,21 +52,21 @@ let artCatPc = []
 
 //init articles by categories
 for (let i = 0; i < listArticles.length; i++) {
-  if(listArticles[i].catName == "Materiel info"){
-    artCatMatInfo.push(listArticles[i])
-  }  
-  
-  if(listArticles[i].catName == "Ordinateur portable ou pas"){
-    artCatPc.push(listArticles[i])
-  }
-  
-  if(listArticles[i].catName == ""){
-    artCatSmart.push(listArticles[i])
-  }
+    if (listArticles[i].catName == "Materiel info") {
+        artCatMatInfo.push(listArticles[i])
+    }
 
-  if(listArticles[i].catName == "Logiciel"){
-    artCatLog.push(listArticles[i])
-  }
+    if (listArticles[i].catName == "Ordinateur portable ou pas") {
+        artCatPc.push(listArticles[i])
+    }
+
+    if (listArticles[i].catName == "") {
+        artCatSmart.push(listArticles[i])
+    }
+
+    if (listArticles[i].catName == "Logiciel") {
+        artCatLog.push(listArticles[i])
+    }
 }
 
 console.log("tableaux des catégories : ")
@@ -177,7 +177,7 @@ function createCard(article) {
 
     // div card
     let divCard = document.createElement("div");
-    divCard.className = "card"; //d-none//////////////////////////////
+    divCard.className = "card " + article.catName; //d-none//////////////////////////////
     divCard.style = "width: 18rem;";
     divArticles.appendChild(divCard);
 
@@ -275,15 +275,147 @@ function createLineCart(article) {
 // }
 
 //document.getElementById('mycheckbox').checked=true;
+let mat_info = document.getElementsByClassName("mat-info")
+let pc = document.getElementsByClassName("pc")
+let logiciel = document.getElementsByClassName("logiciel")
+let smartphone = document.getElementsByClassName("smartphone")
+
 catMatInfo.addEventListener('click', function () {
+
     if (catMatInfo.checked) {
-        // Fonction qui garde que les articles de la catégorie et display none les autres
-        catMatInfo.style.display = "flex"
-        ////////////récupérer tous les objets de la liste...
-    } else {
-        // Returns false if not checked
-        catMatInfo.style.display = "none"
+
+        for (i = 0; i < mat_info.length; i++) {
+            mat_info[i].style.display = "flex"
+        }
+
+        if (!catPc.checked) {
+            for (i = 0; i < pc.length; i++) {
+                pc[i].style.display = "none"
+            }
+        }
+
+        if (!catLog.checked) {
+            for (i = 0; i < logiciel.length; i++) {
+                logiciel[i].style.display = "none"
+            }
+        }
+
+        if (!catSmart.checked) {
+            for (i = 0; i < smartphone.length; i++) {
+                smartphone[i].style.display = "none"
+            }
+        }
     }
+
+    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+        for (let i=0; i<listArticles.length;i++){
+            listArticles[i].style.display="flex"
+        }
+    }
+
+})
+
+catPc.addEventListener('click', function () {
+
+    if (catPc.checked) {
+
+        for (i = 0; i < pc.length; i++) {
+            pc[i].style.display = "flex"
+        }
+        if (!catMatInfo.checked) {
+            for (i = 0; i < mat_info.length; i++) {
+                mat_info[i].style.display = "none"
+            }
+        }
+
+        if (!catLog.checked) {
+            for (i = 0; i < logiciel.length; i++) {
+                logiciel[i].style.display = "none"
+            }
+        }
+
+        if (!catSmart.checked) {
+            for (i = 0; i < smartphone.length; i++) {
+                smartphone[i].style.display = "none"
+            }
+        }
+    }
+
+    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+       for (let i=0; i<listArticles.length;i++){
+           listArticles[i].style.display="flex"
+       }
+    }
+})
+
+
+
+catLog.addEventListener('click', function () {
+
+    if (catLog.checked) {
+
+        for (i = 0; i < logiciel.length; i++) {
+            logiciel[i].style.display = "flex"
+        }
+        if (!catMatInfo.checked) {
+            for (i = 0; i < mat_info.length; i++) {
+                mat_info[i].style.display = "none"
+            }
+        }
+
+        if (!catPc.checked) {
+            for (i = 0; i < pc.length; i++) {
+                pc[i].style.display = "none"
+            }
+        }
+
+        if (!catSmart.checked) {
+            for (i = 0; i < smartphone.length; i++) {
+                smartphone[i].style.display = "none"
+            }
+        }
+    }
+
+    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+        for (let i=0; i<listArticles.length;i++){
+            listArticles[i].style.display="flex"
+        }
+    }
+
+
+})
+
+catSmart.addEventListener('click', function () {
+
+    if (catSmart.checked) {
+        for (i = 0; i < smartphone.length; i++) {
+            smartphone[i].style.display = "flex"
+        }
+
+        if (!catMatInfo.checked) {
+            for (i = 0; i < mat_info.length; i++) {
+                mat_info[i].style.display = "none"
+            }
+        }
+        if (!catLog.checked) {
+            for (i = 0; i < logiciel.length; i++) {
+                logiciel[i].style.display = "none"
+            }
+        }
+        if (!catPc.checked) {
+            for (i = 0; i < pc.length; i++) {
+                pc[i].style.display = "none"
+            }
+        }
+    }
+
+    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+        for (let i=0; i<listArticles.length;i++){
+            listArticles[i].style.display="flex"
+        }
+    }
+
+
 })
 
 
@@ -300,18 +432,20 @@ catMatInfo.addEventListener('click', function () {
 //     }
 // };
 
-// if(!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked){
+// document.addEventListener("click",function(){
+//     if(!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked){
 //     catMatInfo.style.display = "flex"
 //     catLog.style.display = "flex"
 //     catPc.style.display = "flex"
 //     catSmart.style.display = "flex"
-// }
+// }})
+
 
 //ce qu'il reste à relier à la page :
 // - supprimer du panier
 
 
-// - afficher la qté dans le panier  
+// - afficher la qté dans le panier
 // - afficher le total de la commande
 // - passer commande -> alert
 
