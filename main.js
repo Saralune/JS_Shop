@@ -11,7 +11,7 @@ class Article {
     }
 }
 
-//init catégories
+//init checkbox catégories
 let catMatInfo = document.getElementById('cat_mat-info')
 let catLog = document.getElementById('cat_log')
 let catPc = document.getElementById('cat_pc')
@@ -44,12 +44,37 @@ createCard(article12);
 createCard(article13);
 createCard(article14);
 
-//créer la ligne article dans le panier
-//createLineCart(article11);
+//init tabs of articles by cat
+let artCatMatInfo = []
+let artCatLog = []
+let artCatSmart = []
+let artCatPc = []
 
-console.log(listArticles[0].idArticle)
+//init articles by categories
+for (let i = 0; i < listArticles.length; i++) {
+  if(listArticles[i].catName == "Materiel info"){
+    artCatMatInfo.push(listArticles[i])
+  }  
+  
+  if(listArticles[i].catName == "Ordinateur portable ou pas"){
+    artCatPc.push(listArticles[i])
+  }
+  
+  if(listArticles[i].catName == ""){
+    artCatSmart.push(listArticles[i])
+  }
 
+  if(listArticles[i].catName == "Logiciel"){
+    artCatLog.push(listArticles[i])
+  }
+}
 
+console.log("tableaux des catégories : ")
+console.log(artCatLog)
+console.log(artCatMatInfo)
+console.log(artCatPc)
+console.log(artCatSmart)
+console.log("================================")
 
 // //Récupération des balises pour l'affichage
 // let id1=document.getElementById("id1")
@@ -86,27 +111,28 @@ function getArticleById(id) {
             console.log(listArticles[i])
             return listArticles[i]
         }
-
     };
-
 }
 
-console.log(getArticleById(11))
-
-
-
+//Ajout d'un article dans le panier
 function addCaddy(id) {
     createLineCart(getArticleById(id))
     caddy.setItem(id, getArticleById(id))
     alert("Votre article a bien été ajouté au panier")
+
+    //Ajout de la quantité
+    ///////////////////////////////////////////////////
+
+    //Total du panier
+    //à changer en fonction du total des articles du panier///////////////////////////////
+    document.getElementById("totalCart").innerHTML = "105 €"
 }
 
 //numéro de l'idArticle du dernier article.
 let lastId = listArticles[listArticles.length - 1].idArticle
 
+//Ajout d'un article dans le panier, au clic sur le bouton "Ajouter au panier"
 for (let i = 0; i < lastId + 1; i++) {
-    //console.log(listArticles[listArticles.length-1].idArticle)
-
     if (document.getElementById(i) != null) {
         document.getElementById(i).addEventListener('click', function () {
             addCaddy(i)
@@ -114,24 +140,21 @@ for (let i = 0; i < lastId + 1; i++) {
     }
 }
 
-let poubelle = document.getElementsByClassName("col-grid-5")
-let divArtCart = document.getElementsByClassName("modal-body-art")
+// let poubelle = document.getElementsByClassName("col-grid-5")
+// let divArtCart = document.getElementsByClassName("modal-body-art")
 
-for (let i = 0; i < poubelle.length; i++) {
-    alert('boucle')
-    poubelle[i].addEventListener("click", function () {
-        alert("poubelle")
-        divArtCart[i].remove()
-    })
-}
+// for (let i = 0; i < poubelle.length; i++) {
+//     alert('boucle')
+//     poubelle[i].addEventListener("click", function () {
+//         alert("poubelle")
+//         divArtCart[i].remove()
+//     })
+// }
 // function deleteCaddy(id) {
 //     caddy.getItem(id, getArticleById(id)).
 
 // }
 
-//Ajouter à addCady ??
-//Total panier
-document.getElementById("totalCart").innerHTML = "105 €"
 
 function createCard(article) {
     let divArticles = document.getElementById("articles");
@@ -176,6 +199,7 @@ function createCard(article) {
     divCardBody.appendChild(buttonCard);
     console.log(buttonCard.innerHTML);
 
+    //Ajout de l'article créé en ligne dans un tableau
     listArticles.push(article)
 }
 
@@ -224,21 +248,17 @@ function createLineCart(article) {
     let hrCart = document.createElement("hr")
     hrCart.className = "hr"
     modalBody.appendChild(hrCart)
-
-    //console.log(poubelle.length)
 }
 
-function getArtCat(cat) { ///////////////////////////////////
-    for (let i = 0; i < 4; i++) {
-        //tabMatInfo.style.display = "flex"
+// function getArtCat(cat) { ///////////////////////////////////
+//     for (let i = 0; i < 4; i++) {
+//         //tabMatInfo.style.display = "flex"
 
-    }
+//     }
 
-}
+// }
 
 //document.getElementById('mycheckbox').checked=true;
-
-
 catMatInfo.addEventListener('click', function () {
     if (catMatInfo.checked) {
         // Fonction qui garde que les articles de la catégorie et display none les autres
@@ -273,10 +293,10 @@ catMatInfo.addEventListener('click', function () {
 
 //ce qu'il reste à relier à la page :
 // - supprimer du panier
-// - ajouter au panier
-// - afficher la qté dans le panier
+// - ajouter au panier -- ok
+// - afficher la qté dans le panier -- ok
 // - afficher le total de la commande
 // - passer commande -> alert
-// - modifier la quantité de l'affichage du panier sur la page d'accueil
+// - modifier la quantité de l'affichage du panier sur la page d'accueil -- bientot du coup
 
 // - gérer les checkbox des catégories et l'affichage qui leur correspond
