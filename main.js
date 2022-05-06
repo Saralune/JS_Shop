@@ -44,38 +44,6 @@ createCard(article12);
 createCard(article13);
 createCard(article14);
 
-//init tabs of articles by cat
-let artCatMatInfo = []
-let artCatLog = []
-let artCatSmart = []
-let artCatPc = []
-
-//init articles by categories
-for (let i = 0; i < listArticles.length; i++) {
-  if(listArticles[i].catName == "Materiel info"){
-    artCatMatInfo.push(listArticles[i])
-  }  
-  
-  if(listArticles[i].catName == "Ordinateur portable ou pas"){
-    artCatPc.push(listArticles[i])
-  }
-  
-  if(listArticles[i].catName == ""){
-    artCatSmart.push(listArticles[i])
-  }
-
-  if(listArticles[i].catName == "Logiciel"){
-    artCatLog.push(listArticles[i])
-  }
-}
-
-console.log("tableaux des catégories : ")
-console.log(artCatLog)
-console.log(artCatMatInfo)
-console.log(artCatPc)
-console.log(artCatSmart)
-console.log("================================")
-
 // //Récupération des balises pour l'affichage
 // let id1=document.getElementById("id1")
 // let id2= document.getElementById("id2")
@@ -112,16 +80,15 @@ qty_cart.innerHTML = caddySize
 function getArticleById(id) {
     for (let i = 0; i < listArticles.length; i++) {
         if (listArticles[i].idArticle == id) {
-            console.log(listArticles[i])
+            //console.log(listArticles[i])
             return listArticles[i]
         }
     };
 }
 
-console.log(getArticleById(11))
+//console.log(getArticleById(11))
 
 //Ajout d'un article dans le panier
-
 function addCaddy(id) {
     createLineCart(getArticleById(id))
     caddy.setItem(id, getArticleById(id))
@@ -139,10 +106,7 @@ function addCaddy(id) {
     //Total du panier
     //à changer en fonction du total des articles du panier///////////////////////////////
     document.getElementById("totalCart").innerHTML = "105 €"
-
 }
-
-
 
 //numéro de l'idArticle du dernier article.
 let lastId = listArticles[listArticles.length - 1].idArticle
@@ -156,16 +120,34 @@ for (let i = 0; i < lastId + 1; i++) {
     }
 }
 
-// let poubelle = document.getElementsByClassName("col-grid-5")
-// let divArtCart = document.getElementsByClassName("modal-body-art")
 
-// for (let i = 0; i < poubelle.length; i++) {
-//     alert('boucle')
+let divArtCart = document.getElementsByClassName("modal-body-art")
+
+window.addEventListener('DOMContentLoaded', function(){
+  let poubelle = document.getElementsByClassName("col-grid-5")
+  if(!poubelle){
+    return;
+  }
+  // poubelle[0].addEventListener('click', function(){
+  //   divArtCart[item].remove()
+  // })
+})
+
+// poubelle.forEach(item => {
+//   item.addEventListener('click', function (){
+//     console.log(divArtCart[item])
+//     divArtCart[item].remove()
+//   })
+// })
+
+// for (let i = 0; i < 2; i++) {
+//     //alert('boucle')
 //     poubelle[i].addEventListener("click", function () {
-//         alert("poubelle")
+//         deleteFromCaddy(i)
 //         divArtCart[i].remove()
 //     })
 // }
+
 // function deleteCaddy(id) {
 //     caddy.getItem(id, getArticleById(id)).
 
@@ -199,7 +181,6 @@ function createCard(article) {
     cardTitle.className = "card-title";
     cardTitle.innerHTML = article.description;
     divCardBody.appendChild(cardTitle);
-    console.log(cardTitle.innerHTML);
 
     //p card-text
     let pCardText = document.createElement("p");
@@ -213,7 +194,6 @@ function createCard(article) {
     buttonCard.innerHTML = "Ajouter au panier";
     buttonCard.id = article.idArticle;
     divCardBody.appendChild(buttonCard);
-    console.log(buttonCard.innerHTML);
 
     //Ajout de l'article créé en ligne dans un tableau
     listArticles.push(article)
@@ -258,27 +238,42 @@ function createLineCart(article) {
     imgGarbage.setAttribute("src", "./img/delete.png")
     imgGarbage.className = "col-grid-5"
     imgGarbage.alt = "Supprimer du panier"
+    imgGarbage.id = article.idArticle
     divBodyArt.appendChild(imgGarbage);
 
     //hr
     let hrCart = document.createElement("hr")
     hrCart.className = "hr"
     modalBody.appendChild(hrCart)
+
+    // window.addEventListener('DOMContentLoaded', function(){
+    //   let poubelle = document.getElementsByClassName("col-grid-5")
+    //   console.log("poubelle length : " + poubelle.length)
+    // })
 }
 
-// function getArtCat(cat) { ///////////////////////////////////
-//     for (let i = 0; i < 4; i++) {
-//         //tabMatInfo.style.display = "flex"
+function deleteLineCaddy(){
+  document.addEventListener('click', function(e){
+    console.log("target " + e.target)
+    console.log("id traget " + e.target.id)
+    if(e.target && e.target.className == "col-grid-5"){ 
+      caddy.removeItem(e.target.id); //e.target.id
+      
+      divArtCart[e.target.id].remove()
 
-//     }
 
-// }
+      //Ajouter une popup putôt que alert
+      //alert("L'article a bien été supprimé de votre panier.")
+    } 
+  })
+}
+deleteLineCaddy()
 
 //document.getElementById('mycheckbox').checked=true;
 catMatInfo.addEventListener('click', function () {
     if (catMatInfo.checked) {
         // Fonction qui garde que les articles de la catégorie et display none les autres
-        catMatInfo.style.display = "flex"
+        //catMatInfo.style.display = "flex"
         ////////////récupérer tous les objets de la liste...
     } else {
         // Returns false if not checked
@@ -306,21 +301,18 @@ catMatInfo.addEventListener('click', function () {
 //     catSmart.style.display = "flex"
 // }
 
+
+
+
 //ce qu'il reste à relier à la page :
 // - supprimer du panier
-
-
 // - afficher la qté dans le panier  
 // - afficher le total de la commande
 // - passer commande -> alert
-
 // - ajouter au panier -- ok
 // - afficher la qté dans le panier -- à voir
 // - afficher le total de la commande
 // - passer commande -> alert
 // - modifier la quantité de l'affichage du panier sur la page d'accueil -- ok
-
-
-
 // - gérer les checkbox des catégories et l'affichage qui leur correspond
 
