@@ -19,17 +19,17 @@ let catSmart = document.getElementById('cat_smart')
 
 // //Construction des articles
 let listArticles = []
-let article1 = new Article(1, "Souris", "Logitech", 85, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/souris.jpg")
-let article2 = new Article(2, "Clavier", "Microhard", 49.5, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/clavier.jpg")
-let article3 = new Article(3, "Système d'exploitation", "Fenetres Vistouille", 100, "Logiciel", "Toutes les solutions pour vous sentir mieux devant un bureau.", "img/office.jpg")
-let article5 = new Article(5, "Clé USB 8 To", "Syno", 65, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/cleUSB.jpg")
-let article6 = new Article(6, "Laptop", "PH", 1199, "PC", "Ordinateur portable ou pas", "img/portable.jpg")
-let article7 = new Article(7, "CD x 500", "CETME", 250, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/CD.jpg")
-let article9 = new Article(9, "DVD+R x 100", "Logitech", 1500, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/CD.jpg")
-let article11 = new Article(11, "Casque Audio", "Syno", 105, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/casque.jpg")
-let article12 = new Article(12, "Webcam", "Logitech", 985, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/webcam.jpg")
-let article13 = new Article(13, "Enceintes", "Logitech", 285, "Materiel info", "Tout matériel informatique physique en lien avec un ordinateur", "img/enceintesPC.jpg")
-let article14 = new Article(14, "Antivrus", "Norton", 34.99, "Logiciel", "Toutes les solutions pour vous sentir mieux devant un bureau.", "img/antivirus.jpg")
+let article1 = new Article(1, "Souris", "Logitech", 85, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/souris.jpg")
+let article2 = new Article(2, "Clavier", "Microhard", 49.5, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/clavier.jpg")
+let article3 = new Article(3, "Système d'exploitation", "Fenetres Vistouille", 100, "logiciel", "Toutes les solutions pour vous sentir mieux devant un bureau.", "img/office.jpg")
+let article5 = new Article(5, "Clé USB 8 To", "Syno", 65, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/cleUSB.jpg")
+let article6 = new Article(6, "Laptop", "PH", 1199, "pc", "Ordinateur portable ou pas", "img/portable.jpg")
+let article7 = new Article(7, "CD x 500", "CETME", 250, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/CD.jpg")
+let article9 = new Article(9, "DVD+R x 100", "Logitech", 1500, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/CD.jpg")
+let article11 = new Article(11, "Casque Audio", "Syno", 105, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/casque.jpg")
+let article12 = new Article(12, "Webcam", "Logitech", 985, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/webcam.jpg")
+let article13 = new Article(13, "Enceintes", "Logitech", 285, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/enceintesPC.jpg")
+let article14 = new Article(14, "Antivrus", "Norton", 34.99, "logiciel", "Toutes les solutions pour vous sentir mieux devant un bureau.", "img/antivirus.jpg")
 
 //création des articles côté front
 createCard(article1);
@@ -43,6 +43,38 @@ createCard(article11);
 createCard(article12);
 createCard(article13);
 createCard(article14);
+
+//init tabs of articles by cat
+let artCatMatInfo = []
+let artCatLog = []
+let artCatSmart = []
+let artCatPc = []
+
+//init articles by categories
+for (let i = 0; i < listArticles.length; i++) {
+    if (listArticles[i].catName == "Materiel info") {
+        artCatMatInfo.push(listArticles[i])
+    }
+
+    if (listArticles[i].catName == "Ordinateur portable ou pas") {
+        artCatPc.push(listArticles[i])
+    }
+
+    if (listArticles[i].catName == "") {
+        artCatSmart.push(listArticles[i])
+    }
+
+    if (listArticles[i].catName == "Logiciel") {
+        artCatLog.push(listArticles[i])
+    }
+}
+
+console.log("tableaux des catégories : ")
+console.log(artCatLog)
+console.log(artCatMatInfo)
+console.log(artCatPc)
+console.log(artCatSmart)
+console.log("================================")
 
 // //Récupération des balises pour l'affichage
 // let id1=document.getElementById("id1")
@@ -90,8 +122,10 @@ function getArticleById(id) {
 
 //Ajout d'un article dans le panier
 function addCaddy(id) {
-    createLineCart(getArticleById(id))
-    caddy.setItem(id, getArticleById(id))
+    let obj = getArticleById(id)
+    createLineCart(obj)
+
+    caddy.setItem(id, obj)
     alert("Votre article a bien été ajouté au panier")
 
     // - affichage du panier sur la page d'accueil
@@ -105,7 +139,11 @@ function addCaddy(id) {
 
     //Total du panier
     //à changer en fonction du total des articles du panier///////////////////////////////
-    document.getElementById("totalCart").innerHTML = "105 €"
+    let totalCart = document.getElementById("totalCart")
+    let rep = parseFloat(totalCart.textContent)
+    //console.log('rep', rep)
+    let total = rep + obj.unitaryPrice
+    totalCart.innerHTML = total
 }
 
 //numéro de l'idArticle du dernier article.
@@ -159,7 +197,7 @@ function createCard(article) {
 
     // div card
     let divCard = document.createElement("div");
-    divCard.className = "card"; //d-none//////////////////////////////
+    divCard.className = "card " + article.catName; //d-none//////////////////////////////
     divCard.style = "width: 18rem;";
     divArticles.appendChild(divCard);
 
@@ -182,6 +220,8 @@ function createCard(article) {
     cardTitle.innerHTML = article.description;
     divCardBody.appendChild(cardTitle);
 
+    //console.log(cardTitle.innerHTML);
+
     //p card-text
     let pCardText = document.createElement("p");
     pCardText.className = "card-text bold-blue";
@@ -195,61 +235,78 @@ function createCard(article) {
     buttonCard.id = article.idArticle;
     divCardBody.appendChild(buttonCard);
 
+    //console.log(buttonCard.innerHTML);
+
+
     //Ajout de l'article créé en ligne dans un tableau
     listArticles.push(article)
 }
 
 function createLineCart(article) {
     let modalBody = document.getElementById("modalBody");
+    // count qty article_ligne
+    let qty = 1
 
-    //div
-    let divBodyArt = document.createElement("div");
-    divBodyArt.className = "modal-body-art";
-    modalBody.appendChild(divBodyArt);
+    if (window.localStorage.getItem(article.idArticle) != null) {
+        qty++
+        //p qty
+        let pQtyCart = document.getElementById("qty"+article.idArticle)
+        console.log('qtyart', pQtyCart.innerHTML)
+        //////////////////////////////quantité dans le panier
+         pQtyCart.innerHTML = qty
 
-    //img art
-    let imgCart = document.createElement("img")
-    imgCart.setAttribute("src", article.imageUrl)
-    imgCart.className = "modal-img-cart col-grid-1"
-    imgCart.alt = article.description
-    divBodyArt.appendChild(imgCart);
+    } else {
+        //div
+        let divBodyArt = document.createElement("div");
+        divBodyArt.className = "modal-body-art";
+        modalBody.appendChild(divBodyArt);
 
-    //p name
-    let pNameCart = document.createElement("p");
-    pNameCart.className = "col-grid-2"
-    pNameCart.innerHTML = article.description
-    divBodyArt.appendChild(pNameCart);
+        //img art
+        let imgCart = document.createElement("img")
+        imgCart.setAttribute("src", article.imageUrl)
+        imgCart.className = "modal-img-cart col-grid-1"
+        imgCart.alt = article.description
+        divBodyArt.appendChild(imgCart);
 
-    //p price
-    let pPriceCart = document.createElement("p");
-    pPriceCart.className = "col-grid-3 bold-blue"
-    pPriceCart.innerHTML = article.unitaryPrice + " €"
-    divBodyArt.appendChild(pPriceCart);
+        //p name
+        let pNameCart = document.createElement("p");
+        pNameCart.className = "col-grid-2"
+        pNameCart.innerHTML = article.description
+        divBodyArt.appendChild(pNameCart);
 
-    //p qty
-    let pQtyCart = document.createElement("p");
-    pQtyCart.className = "col-grid-4 bold-blue"
-    //////////////////////////////quantité dans le panier
-    pQtyCart.innerHTML = "Qté à changer"
-    divBodyArt.appendChild(pQtyCart);
+        //p price
+        let pPriceCart = document.createElement("p");
+        pPriceCart.className = "col-grid-3 bold-blue"
+        pPriceCart.innerHTML = article.unitaryPrice + " €"
+        divBodyArt.appendChild(pPriceCart);
 
-    //img garbage
-    let imgGarbage = document.createElement("img")
-    imgGarbage.setAttribute("src", "./img/delete.png")
-    imgGarbage.className = "col-grid-5"
-    imgGarbage.alt = "Supprimer du panier"
-    imgGarbage.id = article.idArticle
-    divBodyArt.appendChild(imgGarbage);
-
-    //hr
-    let hrCart = document.createElement("hr")
-    hrCart.className = "hr"
-    modalBody.appendChild(hrCart)
 
     // window.addEventListener('DOMContentLoaded', function(){
     //   let poubelle = document.getElementsByClassName("col-grid-5")
     //   console.log("poubelle length : " + poubelle.length)
     // })
+
+        //p qty
+        let pQtyCart = document.createElement("p");
+        pQtyCart.className = "col-grid-4 bold-blue"
+        pQtyCart.id="qty"+article.idArticle
+        //////////////////////////////quantité dans le panier
+        pQtyCart.innerHTML = qty
+        divBodyArt.appendChild(pQtyCart);
+
+        //img garbage
+        let imgGarbage = document.createElement("img")
+        imgGarbage.setAttribute("src", "./img/delete.png")
+        imgGarbage.className = "col-grid-5"
+        imgGarbage.alt = "Supprimer du panier"
+        divBodyArt.appendChild(imgGarbage);
+
+        //hr
+        let hrCart = document.createElement("hr")
+        hrCart.className = "hr"
+        modalBody.appendChild(hrCart)
+    }
+
 }
 
 function deleteLineCaddy(){
@@ -270,15 +327,148 @@ function deleteLineCaddy(){
 deleteLineCaddy()
 
 //document.getElementById('mycheckbox').checked=true;
+let mat_info = document.getElementsByClassName("mat-info")
+let pc = document.getElementsByClassName("pc")
+let logiciel = document.getElementsByClassName("logiciel")
+let smartphone = document.getElementsByClassName("smartphone")
+
 catMatInfo.addEventListener('click', function () {
+
     if (catMatInfo.checked) {
-        // Fonction qui garde que les articles de la catégorie et display none les autres
-        //catMatInfo.style.display = "flex"
-        ////////////récupérer tous les objets de la liste...
-    } else {
-        // Returns false if not checked
-        catMatInfo.style.display = "none"
+
+        for (i = 0; i < mat_info.length; i++) {
+            mat_info[i].style.display = "flex"
+        }
+
+        if (!catPc.checked) {
+            for (i = 0; i < pc.length; i++) {
+                pc[i].style.display = "none"
+            }
+        }
+
+        if (!catLog.checked) {
+            for (i = 0; i < logiciel.length; i++) {
+                logiciel[i].style.display = "none"
+            }
+        }
+
+        if (!catSmart.checked) {
+            for (i = 0; i < smartphone.length; i++) {
+                smartphone[i].style.display = "none"
+            }
+        }
+
     }
+
+    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+        for (let i=0; i<listArticles.length;i++){
+            listArticles[i].style.display="flex"
+        }
+    }
+
+})
+
+catPc.addEventListener('click', function () {
+
+    if (catPc.checked) {
+
+        for (i = 0; i < pc.length; i++) {
+            pc[i].style.display = "flex"
+        }
+        if (!catMatInfo.checked) {
+            for (i = 0; i < mat_info.length; i++) {
+                mat_info[i].style.display = "none"
+            }
+        }
+
+        if (!catLog.checked) {
+            for (i = 0; i < logiciel.length; i++) {
+                logiciel[i].style.display = "none"
+            }
+        }
+
+        if (!catSmart.checked) {
+            for (i = 0; i < smartphone.length; i++) {
+                smartphone[i].style.display = "none"
+            }
+        }
+    }
+
+    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+       for (let i=0; i<listArticles.length;i++){
+           listArticles[i].style.display="flex"
+       }
+    }
+})
+
+
+
+catLog.addEventListener('click', function () {
+
+    if (catLog.checked) {
+
+        for (i = 0; i < logiciel.length; i++) {
+            logiciel[i].style.display = "flex"
+        }
+        if (!catMatInfo.checked) {
+            for (i = 0; i < mat_info.length; i++) {
+                mat_info[i].style.display = "none"
+            }
+        }
+
+        if (!catPc.checked) {
+            for (i = 0; i < pc.length; i++) {
+                pc[i].style.display = "none"
+            }
+        }
+
+        if (!catSmart.checked) {
+            for (i = 0; i < smartphone.length; i++) {
+                smartphone[i].style.display = "none"
+            }
+        }
+    }
+
+    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+        for (let i=0; i<listArticles.length;i++){
+            listArticles[i].style.display="flex"
+        }
+    }
+
+
+})
+
+catSmart.addEventListener('click', function () {
+
+    if (catSmart.checked) {
+        for (i = 0; i < smartphone.length; i++) {
+            smartphone[i].style.display = "flex"
+        }
+
+        if (!catMatInfo.checked) {
+            for (i = 0; i < mat_info.length; i++) {
+                mat_info[i].style.display = "none"
+            }
+        }
+        if (!catLog.checked) {
+            for (i = 0; i < logiciel.length; i++) {
+                logiciel[i].style.display = "none"
+            }
+        }
+        if (!catPc.checked) {
+            for (i = 0; i < pc.length; i++) {
+                pc[i].style.display = "none"
+            }
+        }
+    }
+
+    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+        for (let i=0; i<listArticles.length;i++){
+            listArticles[i].style.display="flex"
+        }
+    }
+
+
 })
 
 
@@ -294,24 +484,26 @@ catMatInfo.addEventListener('click', function () {
 //     }
 // };
 
-// if(!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked){
+// document.addEventListener("click",function(){
+//     if(!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked){
 //     catMatInfo.style.display = "flex"
 //     catLog.style.display = "flex"
 //     catPc.style.display = "flex"
 //     catSmart.style.display = "flex"
-// }
+// }})
+
 
 
 
 
 //ce qu'il reste à relier à la page :
 // - supprimer du panier
-// - afficher la qté dans le panier  
+// - afficher la qté dans le panier
 // - afficher le total de la commande
 // - passer commande -> alert
 // - ajouter au panier -- ok
-// - afficher la qté dans le panier -- à voir
-// - afficher le total de la commande
+// - afficher la qté dans le panier -- ok
+
 // - passer commande -> alert
 // - modifier la quantité de l'affichage du panier sur la page d'accueil -- ok
 // - gérer les checkbox des catégories et l'affichage qui leur correspond
