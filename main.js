@@ -112,19 +112,21 @@ qty_cart.innerHTML = caddySize
 function getArticleById(id) {
     for (let i = 0; i < listArticles.length; i++) {
         if (listArticles[i].idArticle == id) {
-            console.log(listArticles[i])
+            //console.log(listArticles[i])
             return listArticles[i]
         }
     };
 }
 
-console.log(getArticleById(11))
+//console.log(getArticleById(11))
 
 //Ajout d'un article dans le panier
 
 function addCaddy(id) {
-    createLineCart(getArticleById(id))
-    caddy.setItem(id, getArticleById(id))
+    let obj = getArticleById(id)
+    createLineCart(obj)
+
+    caddy.setItem(id, obj)
     alert("Votre article a bien été ajouté au panier")
 
     // - affichage du panier sur la page d'accueil
@@ -138,7 +140,11 @@ function addCaddy(id) {
 
     //Total du panier
     //à changer en fonction du total des articles du panier///////////////////////////////
-    document.getElementById("totalCart").innerHTML = "105 €"
+    let totalCart = document.getElementById("totalCart")
+    let rep = parseFloat(totalCart.textContent)
+    //console.log('rep', rep)
+    let total = rep + obj.unitaryPrice
+    totalCart.innerHTML = total
 
 }
 
@@ -199,7 +205,7 @@ function createCard(article) {
     cardTitle.className = "card-title";
     cardTitle.innerHTML = article.description;
     divCardBody.appendChild(cardTitle);
-    console.log(cardTitle.innerHTML);
+    //console.log(cardTitle.innerHTML);
 
     //p card-text
     let pCardText = document.createElement("p");
@@ -213,7 +219,7 @@ function createCard(article) {
     buttonCard.innerHTML = "Ajouter au panier";
     buttonCard.id = article.idArticle;
     divCardBody.appendChild(buttonCard);
-    console.log(buttonCard.innerHTML);
+    //console.log(buttonCard.innerHTML);
 
     //Ajout de l'article créé en ligne dans un tableau
     listArticles.push(article)
@@ -221,49 +227,62 @@ function createCard(article) {
 
 function createLineCart(article) {
     let modalBody = document.getElementById("modalBody");
+    // count qty article_ligne
+    let qty = 1
 
-    //div
-    let divBodyArt = document.createElement("div");
-    divBodyArt.className = "modal-body-art";
-    modalBody.appendChild(divBodyArt);
+    if (window.localStorage.getItem(article.idArticle) != null) {
+        qty++
+        //p qty
+        let pQtyCart = document.getElementById("qty"+article.idArticle)
+        console.log('qtyart', pQtyCart.innerHTML)
+        //////////////////////////////quantité dans le panier
+         pQtyCart.innerHTML = qty
 
-    //img art
-    let imgCart = document.createElement("img")
-    imgCart.setAttribute("src", article.imageUrl)
-    imgCart.className = "modal-img-cart col-grid-1"
-    imgCart.alt = article.description
-    divBodyArt.appendChild(imgCart);
+    } else {
+        //div
+        let divBodyArt = document.createElement("div");
+        divBodyArt.className = "modal-body-art";
+        modalBody.appendChild(divBodyArt);
 
-    //p name
-    let pNameCart = document.createElement("p");
-    pNameCart.className = "col-grid-2"
-    pNameCart.innerHTML = article.description
-    divBodyArt.appendChild(pNameCart);
+        //img art
+        let imgCart = document.createElement("img")
+        imgCart.setAttribute("src", article.imageUrl)
+        imgCart.className = "modal-img-cart col-grid-1"
+        imgCart.alt = article.description
+        divBodyArt.appendChild(imgCart);
 
-    //p price
-    let pPriceCart = document.createElement("p");
-    pPriceCart.className = "col-grid-3 bold-blue"
-    pPriceCart.innerHTML = article.unitaryPrice + " €"
-    divBodyArt.appendChild(pPriceCart);
+        //p name
+        let pNameCart = document.createElement("p");
+        pNameCart.className = "col-grid-2"
+        pNameCart.innerHTML = article.description
+        divBodyArt.appendChild(pNameCart);
 
-    //p qty
-    let pQtyCart = document.createElement("p");
-    pQtyCart.className = "col-grid-4 bold-blue"
-    //////////////////////////////quantité dans le panier
-    pQtyCart.innerHTML = "Qté à changer"
-    divBodyArt.appendChild(pQtyCart);
+        //p price
+        let pPriceCart = document.createElement("p");
+        pPriceCart.className = "col-grid-3 bold-blue"
+        pPriceCart.innerHTML = article.unitaryPrice + " €"
+        divBodyArt.appendChild(pPriceCart);
 
-    //img garbage
-    let imgGarbage = document.createElement("img")
-    imgGarbage.setAttribute("src", "./img/delete.png")
-    imgGarbage.className = "col-grid-5"
-    imgGarbage.alt = "Supprimer du panier"
-    divBodyArt.appendChild(imgGarbage);
+        //p qty
+        let pQtyCart = document.createElement("p");
+        pQtyCart.className = "col-grid-4 bold-blue"
+        pQtyCart.id="qty"+article.idArticle
+        //////////////////////////////quantité dans le panier
+        pQtyCart.innerHTML = qty
+        divBodyArt.appendChild(pQtyCart);
 
-    //hr
-    let hrCart = document.createElement("hr")
-    hrCart.className = "hr"
-    modalBody.appendChild(hrCart)
+        //img garbage
+        let imgGarbage = document.createElement("img")
+        imgGarbage.setAttribute("src", "./img/delete.png")
+        imgGarbage.className = "col-grid-5"
+        imgGarbage.alt = "Supprimer du panier"
+        divBodyArt.appendChild(imgGarbage);
+
+        //hr
+        let hrCart = document.createElement("hr")
+        hrCart.className = "hr"
+        modalBody.appendChild(hrCart)
+    }
 }
 
 // function getArtCat(cat) { ///////////////////////////////////
@@ -451,9 +470,9 @@ catSmart.addEventListener('click', function () {
 
 // - ajouter au panier -- ok
 // - afficher la qté dans le panier -- ok
-// - afficher le total de la commande
+
 // - passer commande -> alert
-// - modifier la quantité de l'affichage du panier sur la page d'accueil -- bientot du coup
+// - modifier la quantité de l'affichage du panier sur la page d'accueil -- ok
 
 
 
