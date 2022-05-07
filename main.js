@@ -1,14 +1,14 @@
 //constructeur de l'objet Article
 class Article {
-    constructor(idArticle, description, brand, unitaryPrice, catName, descriptionCat, imageUrl) {
-        this.idArticle = idArticle;
-        this.description = description;
-        this.brand = brand;
-        this.unitaryPrice = unitaryPrice;
-        this.catName = catName;
-        this.descriptionCat = descriptionCat;
-        this.imageUrl = imageUrl;
-    }
+  constructor(idArticle, description, brand, unitaryPrice, catName, descriptionCat, imageUrl) {
+    this.idArticle = idArticle;
+    this.description = description;
+    this.brand = brand;
+    this.unitaryPrice = unitaryPrice;
+    this.catName = catName;
+    this.descriptionCat = descriptionCat;
+    this.imageUrl = imageUrl;
+  }
 }
 
 //init checkbox catégories
@@ -16,6 +16,12 @@ let catMatInfo = document.getElementById('cat_mat-info')
 let catLog = document.getElementById('cat_log')
 let catPc = document.getElementById('cat_pc')
 let catSmart = document.getElementById('cat_smart')
+
+//document.getElementById('mycheckbox').checked=true;
+let mat_info = document.getElementsByClassName("mat-info")
+let pc = document.getElementsByClassName("pc")
+let logiciel = document.getElementsByClassName("logiciel")
+let smartphone = document.getElementsByClassName("smartphone")
 
 // //Construction des articles
 let listArticles = []
@@ -47,37 +53,40 @@ createCard(article14);
 
 //Initialisation du local storage (panier)
 let caddy = window.localStorage;
-let caddySize = window.localStorage.length
+let caddySize = caddy.length
 
 // - affichage du panier sur la page d'accueil
 let qty_cart = document.getElementById("qty-cart");
 qty_cart.innerHTML = caddySize
 
 let totalCart = document.getElementById("totalCart")
-let hr = document.getElementsByClassName('hr')
 let showCaddy = document.getElementById("idCart");
+let modalBody = document.getElementById("modalBody");
+
+//numéro de l'idArticle du dernier article.
+let lastId = listArticles[listArticles.length - 1].idArticle
 
 // affichage du panier au click (logo)
 showCaddy.addEventListener('click', function (e) {
-    e.preventDefault()
-    console.log('click')
-    for (let i = 0; i < caddySize; i++) {
-        let obj = getArticleById(caddy.key(i))
-        createLineCart(obj)
-        totalCaddy()
-    }
+  e.preventDefault()
+  console.log('click')
+  for (let i = 0; i < caddySize; i++) {
+    let obj = getArticleById(caddy.key(i))
+    createLineCart(obj)
+    totalCaddy()
+  }
 })
 
 // calcul du total panier
 function totalCaddy() {
-    let total = 0
-    for (let i = 0; i < caddySize; i++) {
-       let obj = JSON.parse(caddy.getItem(caddy.key(i)))
-        total +=obj.sum
-    }
-    totalCart.innerHTML = total + " €"
+  let total = 0
+  for (let i = 0; i < caddySize; i++) {
+    let obj = JSON.parse(caddy.getItem(caddy.key(i)))
+    total += obj.sum
+  }
+  totalCart.innerHTML = total + " €"
 }
-//totalCaddy()
+totalCaddy()
 
 //remet le panier à 0 au rechargement de la page
 // if(caddySize > 0){
@@ -86,366 +95,330 @@ function totalCaddy() {
 
 
 function getArticleById(id) {
-    for (let i = 0; i < listArticles.length; i++) {
-        if (listArticles[i].idArticle == id) {
-            //console.log(listArticles[i])
-            return listArticles[i]
-        }
-    };
+  for (let i = 0; i < listArticles.length; i++) {
+    if (listArticles[i].idArticle == id) {
+      //console.log(listArticles[i])
+      return listArticles[i]
+    }
+  };
 }
 
 //Ajout d'un article dans le panier
 function addCaddy(id) {
-    let obj = getArticleById(id)
-    if (caddy.getItem(id)) {
-        let objLocal = JSON.parse(caddy.getItem(id))
-        let qty = objLocal.qty
-        qty++
-        caddy.setItem(id, JSON.stringify({ qty: qty, sum: qty * obj.unitaryPrice }))
-    } else {
-        caddy.setItem(id, JSON.stringify({ qty: 1, sum: obj.unitaryPrice }))
-    }
+  let obj = getArticleById(id)
+  if (caddy.getItem(id)) {
+    let objLocal = JSON.parse(caddy.getItem(id))
+    let qty = objLocal.qty
+    qty++
+    caddy.setItem(id, JSON.stringify({ qty: qty, sum: qty * obj.unitaryPrice }))
+  } else {
+    caddy.setItem(id, JSON.stringify({ qty: 1, sum: obj.unitaryPrice }))
+  }
 
-    alert("Votre article a bien été ajouté au panier")
+  alert("Votre article a bien été ajouté au panier")
 
-    // - affichage du panier sur la page d'accueil
-    qty_cart.innerHTML = caddySize
-
+  // - affichage du panier sur la page d'accueil
+  qty_cart.innerHTML = caddySize
 }
 
-//numéro de l'idArticle du dernier article.
-let lastId = listArticles[listArticles.length - 1].idArticle
 
 //Ajout d'un article dans le panier, au clic sur le bouton "Ajouter au panier"
 for (let i = 0; i < lastId + 1; i++) {
-    if (document.getElementById(i) != null) {
-        document.getElementById(i).addEventListener('click', function () {
-            addCaddy(i)
-        })
-    }
+  if (document.getElementById(i) != null) {
+    document.getElementById(i).addEventListener('click', function () {
+      console.log("ajout panier")
+      addCaddy(i)
+    })
+  }
 }
 
-// function deleteCaddy(id) {
-//     caddy.getItem(id, getArticleById(id)).
-
-// }
-
-
 function createCard(article) {
-    let divArticles = document.getElementById("articles");
+  let divArticles = document.getElementById("articles");
 
-    // div card
-    let divCard = document.createElement("div");
-    divCard.className = "card " + article.catName;
-    divCard.style = "width: 18rem;";
-    divArticles.appendChild(divCard);
+  // div card
+  let divCard = document.createElement("div");
+  divCard.className = "card " + article.catName;
+  divCard.style = "width: 18rem;";
+  divArticles.appendChild(divCard);
 
-    //img article
-    let imgCard = document.createElement("img");
-    imgCard.className = "card-img-top art_img";
-    //imgCard.src = article.imageUrl;
-    imgCard.setAttribute("src", article.imageUrl);
-    imgCard.alt = article.description;
-    divCard.appendChild(imgCard);
+  //img article
+  let imgCard = document.createElement("img");
+  imgCard.className = "card-img-top art_img";
+  imgCard.setAttribute("src", article.imageUrl);
+  imgCard.alt = article.description;
+  divCard.appendChild(imgCard);
 
-    // div card-body
-    let divCardBody = document.createElement("div");
-    divCardBody.className = "card-body d-flex flex-column";
-    divCard.appendChild(divCardBody);
+  // div card-body
+  let divCardBody = document.createElement("div");
+  divCardBody.className = "card-body d-flex flex-column";
+  divCard.appendChild(divCardBody);
 
-    //h5
-    let cardTitle = document.createElement("h5");
-    cardTitle.className = "card-title";
-    cardTitle.innerHTML = article.description;
-    divCardBody.appendChild(cardTitle);
+  //h5
+  let cardTitle = document.createElement("h5");
+  cardTitle.className = "card-title";
+  cardTitle.innerHTML = article.description;
+  divCardBody.appendChild(cardTitle);
 
-    //p card-text
-    let pCardText = document.createElement("p");
-    pCardText.className = "card-text bold-blue";
-    pCardText.innerHTML = article.unitaryPrice + " €";
-    divCardBody.appendChild(pCardText);
+  //p card-text
+  let pCardText = document.createElement("p");
+  pCardText.className = "card-text bold-blue";
+  pCardText.innerHTML = article.unitaryPrice + " €";
+  divCardBody.appendChild(pCardText);
 
-    //button
-    let buttonCard = document.createElement("button");
-    buttonCard.className = "btn art-btn";
-    buttonCard.innerHTML = "Ajouter au panier";
-    buttonCard.id = article.idArticle;
-    divCardBody.appendChild(buttonCard);
+  //button
+  let buttonCard = document.createElement("button");
+  buttonCard.className = "btn art-btn";
+  buttonCard.innerHTML = "Ajouter au panier";
+  buttonCard.id = article.idArticle;
+  divCardBody.appendChild(buttonCard);
 
-    //Ajout de l'article créé en ligne dans un tableau
-    listArticles.push(article)
+  //Ajout de l'article créé en ligne dans un tableau
+  listArticles.push(article)
 }
 
 function createLineCart(article) {
-    let modalBody = document.getElementById("modalBody");
-    let qtyObj = JSON.parse(window.localStorage.getItem(article.idArticle))
-    let qty = qtyObj.qty
-    //div
-    let divBodyArt = document.createElement("div");
-    divBodyArt.className = "modal-body-art";
-    modalBody.appendChild(divBodyArt);
+  let qtyObj = JSON.parse(window.localStorage.getItem(article.idArticle))
+  let qty = qtyObj.qty
 
-    //img art
-    let imgCart = document.createElement("img")
-    imgCart.setAttribute("src", article.imageUrl)
-    imgCart.className = "modal-img-cart col-grid-1"
-    imgCart.alt = article.description
-    divBodyArt.appendChild(imgCart);
+  //div
+  let divBodyArt = document.createElement("div");
+  divBodyArt.className = "modal-body-art";
+  divBodyArt.id = "div-" + article.idArticle;
+  modalBody.appendChild(divBodyArt);
 
-    //p name
-    let pNameCart = document.createElement("p");
-    pNameCart.className = "col-grid-2"
-    pNameCart.innerHTML = article.description
-    divBodyArt.appendChild(pNameCart);
+  //img art
+  let imgCart = document.createElement("img")
+  imgCart.setAttribute("src", article.imageUrl)
+  imgCart.className = "modal-img-cart col-grid-1"
+  imgCart.alt = article.description
+  divBodyArt.appendChild(imgCart);
 
-    //p price
-    let pPriceCart = document.createElement("p");
-    pPriceCart.className = "col-grid-3 bold-blue"
-    pPriceCart.innerHTML = article.unitaryPrice + " €"
-    divBodyArt.appendChild(pPriceCart);
+  //p name
+  let pNameCart = document.createElement("p");
+  pNameCart.className = "col-grid-2"
+  pNameCart.innerHTML = article.description
+  divBodyArt.appendChild(pNameCart);
 
-    //p qty
-    let pQtyCart = document.createElement("p");
-    pQtyCart.className = "col-grid-4 bold-blue"
-    pQtyCart.id = "qty" + article.idArticle
-    pQtyCart.innerHTML = qty
-    // console.log("qty : " + qty)
-    divBodyArt.appendChild(pQtyCart);
+  //p price
+  let pPriceCart = document.createElement("p");
+  pPriceCart.className = "col-grid-3 bold-blue"
+  pPriceCart.innerHTML = article.unitaryPrice + " €"
+  divBodyArt.appendChild(pPriceCart);
 
-    //img garbage
-    let imgGarbage = document.createElement("img")
-    imgGarbage.setAttribute("src", "./img/delete.png")
-    imgGarbage.className = "col-grid-5"
-    imgGarbage.id = "000" + article.idArticle
-    console.log("imgGarbage.id : " + imgGarbage.id)
-    imgGarbage.alt = "Supprimer du panier"
-    divBodyArt.appendChild(imgGarbage);
+  //p qty
+  let pQtyCart = document.createElement("p");
+  pQtyCart.className = "col-grid-4 bold-blue"
+  pQtyCart.id = "qty" + article.idArticle
+  pQtyCart.innerHTML = qty
+  // console.log("qty : " + qty)
+  divBodyArt.appendChild(pQtyCart);
 
-    //hr
-    let hrCart = document.createElement("hr")
-    hrCart.className = "hr"
-    modalBody.appendChild(hrCart)
+  //img garbage
+  let imgGarbage = document.createElement("img")
+  imgGarbage.setAttribute("src", "./img/delete.png")
+  imgGarbage.className = "col-grid-5"
+  imgGarbage.id = "cart-" + article.idArticle
+  //console.log("imgGarbage.id : " + imgGarbage.id)
+  imgGarbage.alt = "Supprimer du panier"
+  divBodyArt.appendChild(imgGarbage);
 
-
+  //hr
+  let hrCart = document.createElement("hr")
+  hrCart.id = "hr-" + article.idArticle;
+  modalBody.appendChild(hrCart)
 }
 
+//supprimer un article du panier
+document.addEventListener('click', function (e) {
+  if (e.target && e.target.className == "col-grid-5") {
+    //récupère l'id de l'article à supprimer
+    let idToRemove = e.target.id.substr(5);
+    //créationde l'objet en fonction de l'id
+    let obj = getArticleById(idToRemove)
 
-// function deleteLineCaddy(){
-//   document.addEventListener('click', function(e){
-//     let divArtCart = document.getElementsByClassName("modal-body-art")
+    //récupération des lignes du panier
+    let divArtCart = document.getElementById("div-" + idToRemove)
+    let hr = document.getElementById('hr-' + idToRemove)
 
-//     if(e.target && e.target.className == "col-grid-5"){ 
-//       //récupère l'id de l'article à supprimer
-//       let idToRemove = e.target.id.substr(3);
+    console.log("id to remove : " + idToRemove)
 
-//       ////////////////
-//       //ATtenion, ne fonctionne pas si je supprime un article et qu'il y en a moins que prévu !
-//       //à rectifier
+    //suppression des lignes dans le panier
+    divArtCart.remove() 
+    hr.remove()
+
+    //actualisation du total du panier
 
 
-//       divArtCart[idToRemove - 1].remove() //j'enlève 1 pour retomber sur l'index 
-//       hr[idToRemove - 1].remove()
-//       caddy.removeItem(idToRemove);
+    //suppression de l'article dans le local storage
+    caddy.removeItem(idToRemove);
 
-//       //create alert "article supprimé"
-//       let divOk = document.createElement('div')
-//       divOk.className = "alert alert-success"
-//       divOk.role = "alert"
-//       divOk.innerHTML = "L'article a bien été supprimé"
-//       document.getElementById("modalBody").appendChild(divOk)
-//       //l'alerte disparait au bout de 5 secondes
-//       setInterval(function() {
-//         divOk.remove()
-//       }, 5000)
-//        ////////////////
-//       //insertBefore(document.getElementsByClassName('hr')[0])
+    //Actualiser le total du panier ======> normalement géré avec le json et le local storage
+    // let rep = parseFloat(totalCart.textContent)
+    // let total = rep - obj.unitaryPrice //ne prend en compte qu'une quantité !
+    // totalCart.innerHTML = total + " €"
 
-//       //Ajouter une popup putôt que alert
-//       //alert("L'article a bien été supprimé de votre panier.")
-//     } 
-//   })
-// }
-//deleteLineCaddy()
+    //create alert "article supprimé"
+    let divOk = document.createElement('div')
+    divOk.className = "alert alert-success"
+    divOk.role = "alert"
+    divOk.innerHTML = "L'article " + getArticleById(idToRemove).description + " a bien été supprimé"
+    document.getElementById("modalBody").appendChild(divOk)
 
-//document.getElementById('mycheckbox').checked=true;
-let mat_info = document.getElementsByClassName("mat-info")
-let pc = document.getElementsByClassName("pc")
-let logiciel = document.getElementsByClassName("logiciel")
-let smartphone = document.getElementsByClassName("smartphone")
+    //l'alerte disparait au bout de 5 secondes
+    setInterval(function () {
+      divOk.remove()
+    }, 5000)
+  }
+})
+
+
 
 catMatInfo.addEventListener('click', function () {
 
-    if (catMatInfo.checked) {
+  if (catMatInfo.checked) {
 
-        for (i = 0; i < mat_info.length; i++) {
-            mat_info[i].style.display = "flex"
-        }
-
-        if (!catPc.checked) {
-            for (i = 0; i < pc.length; i++) {
-                pc[i].style.display = "none"
-            }
-        }
-
-        if (!catLog.checked) {
-            for (i = 0; i < logiciel.length; i++) {
-                logiciel[i].style.display = "none"
-            }
-        }
-
-        if (!catSmart.checked) {
-            for (i = 0; i < smartphone.length; i++) {
-                smartphone[i].style.display = "none"
-            }
-        }
-
+    for (i = 0; i < mat_info.length; i++) {
+      mat_info[i].style.display = "flex"
     }
 
-    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-        for (let i = 0; i < listArticles.length; i++) {
-            listArticles[i].style.display = "flex"
-        }
+    if (!catPc.checked) {
+      for (i = 0; i < pc.length; i++) {
+        pc[i].style.display = "none"
+      }
     }
+
+    if (!catLog.checked) {
+      for (i = 0; i < logiciel.length; i++) {
+        logiciel[i].style.display = "none"
+      }
+    }
+
+    if (!catSmart.checked) {
+      for (i = 0; i < smartphone.length; i++) {
+        smartphone[i].style.display = "none"
+      }
+    }
+
+  }
+
+  if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+    for (let i = 0; i < listArticles.length; i++) {
+      listArticles[i].style.display = "flex"
+    }
+  }
 
 })
 
 catPc.addEventListener('click', function () {
 
-    if (catPc.checked) {
+  if (catPc.checked) {
 
-        for (i = 0; i < pc.length; i++) {
-            pc[i].style.display = "flex"
-        }
-        if (!catMatInfo.checked) {
-            for (i = 0; i < mat_info.length; i++) {
-                mat_info[i].style.display = "none"
-            }
-        }
-
-        if (!catLog.checked) {
-            for (i = 0; i < logiciel.length; i++) {
-                logiciel[i].style.display = "none"
-            }
-        }
-
-        if (!catSmart.checked) {
-            for (i = 0; i < smartphone.length; i++) {
-                smartphone[i].style.display = "none"
-            }
-        }
+    for (i = 0; i < pc.length; i++) {
+      pc[i].style.display = "flex"
+    }
+    if (!catMatInfo.checked) {
+      for (i = 0; i < mat_info.length; i++) {
+        mat_info[i].style.display = "none"
+      }
     }
 
-    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-        for (let i = 0; i < listArticles.length; i++) {
-            listArticles[i].style.display = "flex"
-        }
+    if (!catLog.checked) {
+      for (i = 0; i < logiciel.length; i++) {
+        logiciel[i].style.display = "none"
+      }
     }
+
+    if (!catSmart.checked) {
+      for (i = 0; i < smartphone.length; i++) {
+        smartphone[i].style.display = "none"
+      }
+    }
+  }
+
+  if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+    for (let i = 0; i < listArticles.length; i++) {
+      listArticles[i].style.display = "flex"
+    }
+  }
 })
 
 
 
 catLog.addEventListener('click', function () {
 
-    if (catLog.checked) {
+  if (catLog.checked) {
 
-        for (i = 0; i < logiciel.length; i++) {
-            logiciel[i].style.display = "flex"
-        }
-        if (!catMatInfo.checked) {
-            for (i = 0; i < mat_info.length; i++) {
-                mat_info[i].style.display = "none"
-            }
-        }
-
-        if (!catPc.checked) {
-            for (i = 0; i < pc.length; i++) {
-                pc[i].style.display = "none"
-            }
-        }
-
-        if (!catSmart.checked) {
-            for (i = 0; i < smartphone.length; i++) {
-                smartphone[i].style.display = "none"
-            }
-        }
+    for (i = 0; i < logiciel.length; i++) {
+      logiciel[i].style.display = "flex"
+    }
+    if (!catMatInfo.checked) {
+      for (i = 0; i < mat_info.length; i++) {
+        mat_info[i].style.display = "none"
+      }
     }
 
-    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-        for (let i = 0; i < listArticles.length; i++) {
-            listArticles[i].style.display = "flex"
-        }
+    if (!catPc.checked) {
+      for (i = 0; i < pc.length; i++) {
+        pc[i].style.display = "none"
+      }
     }
+
+    if (!catSmart.checked) {
+      for (i = 0; i < smartphone.length; i++) {
+        smartphone[i].style.display = "none"
+      }
+    }
+  }
+
+  if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+    for (let i = 0; i < listArticles.length; i++) {
+      listArticles[i].style.display = "flex"
+    }
+  }
 
 
 })
 
 catSmart.addEventListener('click', function () {
 
-    if (catSmart.checked) {
-        for (i = 0; i < smartphone.length; i++) {
-            smartphone[i].style.display = "flex"
-        }
-
-        if (!catMatInfo.checked) {
-            for (i = 0; i < mat_info.length; i++) {
-                mat_info[i].style.display = "none"
-            }
-        }
-        if (!catLog.checked) {
-            for (i = 0; i < logiciel.length; i++) {
-                logiciel[i].style.display = "none"
-            }
-        }
-        if (!catPc.checked) {
-            for (i = 0; i < pc.length; i++) {
-                pc[i].style.display = "none"
-            }
-        }
+  if (catSmart.checked) {
+    for (i = 0; i < smartphone.length; i++) {
+      smartphone[i].style.display = "flex"
     }
 
-    if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-        for (let i = 0; i < listArticles.length; i++) {
-            listArticles[i].style.display = "flex"
-        }
+    if (!catMatInfo.checked) {
+      for (i = 0; i < mat_info.length; i++) {
+        mat_info[i].style.display = "none"
+      }
     }
+    if (!catLog.checked) {
+      for (i = 0; i < logiciel.length; i++) {
+        logiciel[i].style.display = "none"
+      }
+    }
+    if (!catPc.checked) {
+      for (i = 0; i < pc.length; i++) {
+        pc[i].style.display = "none"
+      }
+    }
+  }
 
-
+  if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
+    for (let i = 0; i < listArticles.length; i++) {
+      listArticles[i].style.display = "flex"
+    }
+  }
 })
 
 
-// // Bind function to onclick event for checkbox
-// catMatInfo.onclick = function () {
-//     // access properties using this keyword
-//     if (this.checked) {
-//         // Fonction qui garde que les articles de la catégorie et display none les autres
-//         catMatInfo.style.display = "flex"
-//     } else {
-//         // Returns false if not checked
-//         catMatInfo.style.display = "none"
-//     }
-// };
-
-// document.addEventListener("click",function(){
-//     if(!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked){
-//     catMatInfo.style.display = "flex"
-//     catLog.style.display = "flex"
-//     catPc.style.display = "flex"
-//     catSmart.style.display = "flex"
-// }})
-
-
-
-
-
 //ce qu'il reste à relier à la page :
-// - supprimer du panier
-// - afficher la qté dans le panier
-// - afficher le total de la commande
-// - passer commande -> alert
+// - supprimer du panier -- ok
+// - afficher la qté dans le panier -- ok
+// - afficher le total de la commande -- ok
 // - ajouter au panier -- ok
 // - afficher la qté dans le panier -- ok
 
-// - passer commande -> alert
-// - modifier la quantité de l'affichage du panier sur la page d'accueil -- ok
-// - gérer les checkbox des catégories et l'affichage qui leur correspond
+// - passer commande -> alert -- à faire
+// - modifier la quantité de l'affichage du panier sur la page d'accueil -- à modifier
+// - gérer les checkbox des catégories et l'affichage qui leur correspond -- en cours
 
