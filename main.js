@@ -71,9 +71,15 @@ showCaddy.addEventListener('click', function (e) {
   e.preventDefault()
   console.log('click')
   for (let i = 0; i < caddySize; i++) {
-    let obj = getArticleById(caddy.key(i))
-    createLineCart(obj)
-    totalCaddy()
+    // ligne article crée ?
+    let divId = document.getElementById(`div-${caddy.key(i)
+      }`)
+    if (divId == null) {
+      let obj = getArticleById(caddy.key(i))
+      createLineCart(obj)
+      totalCaddy()
+    }
+
   }
 })
 
@@ -87,12 +93,6 @@ function totalCaddy() {
   totalCart.innerHTML = total + " €"
 }
 totalCaddy()
-
-//remet le panier à 0 au rechargement de la page
-// if(caddySize > 0){
-//   caddy.clear();
-// }
-
 
 function getArticleById(id) {
   for (let i = 0; i < listArticles.length; i++) {
@@ -118,6 +118,7 @@ function addCaddy(id) {
   alert("Votre article a bien été ajouté au panier")
 
   // - affichage du panier sur la page d'accueil
+  caddySize = caddy.length
   qty_cart.innerHTML = caddySize
 }
 
@@ -132,6 +133,29 @@ for (let i = 0; i < lastId + 1; i++) {
   }
 }
 
+// passer commande
+let cmd = document.getElementById("cmd");
+cmd.addEventListener('click', function () {
+  console.log("commande passée")
+  validCart()
+})
+
+function validCart() {
+  let rep = parseFloat(totalCart.textContent)
+  alert(`Commande numéro : 425 d'un montant de : ${rep} est bien validée.`)
+  let modal = document.getElementById("modal")
+  console.log(modal)
+  modal.style.display="none"
+  caddy.clear()
+  // - affichage du panier sur la page d'accueil
+  caddySize = caddy.length
+  qty_cart.innerHTML = caddySize
+  // refresh la page
+  location.reload()
+
+}
+
+// création des articles à l'affichage
 function createCard(article) {
   let divArticles = document.getElementById("articles");
 
@@ -175,7 +199,7 @@ function createCard(article) {
   //Ajout de l'article créé en ligne dans un tableau
   listArticles.push(article)
 }
-
+// création des lignes du panier (affichage)
 function createLineCart(article) {
   let qtyObj = JSON.parse(window.localStorage.getItem(article.idArticle))
   let qty = qtyObj.qty
@@ -243,19 +267,17 @@ document.addEventListener('click', function (e) {
     console.log("id to remove : " + idToRemove)
 
     //suppression des lignes dans le panier
-    divArtCart.remove() 
+    divArtCart.remove()
     hr.remove()
 
-    //actualisation du total du panier
-
+    //Actualiser le total du panier ======> normalement géré avec le json et le local storage
+    let objDelete = JSON.parse(caddy.getItem(idToRemove))
+    let rep = parseFloat(totalCart.textContent)
+    let total = rep - objDelete.sum
+    totalCart.innerHTML = total + " €"
 
     //suppression de l'article dans le local storage
     caddy.removeItem(idToRemove);
-
-    //Actualiser le total du panier ======> normalement géré avec le json et le local storage
-    // let rep = parseFloat(totalCart.textContent)
-    // let total = rep - obj.unitaryPrice //ne prend en compte qu'une quantité !
-    // totalCart.innerHTML = total + " €"
 
     //create alert "article supprimé"
     let divOk = document.createElement('div')
@@ -267,6 +289,7 @@ document.addEventListener('click', function (e) {
     //l'alerte disparait au bout de 5 secondes
     setInterval(function () {
       divOk.remove()
+
     }, 5000)
   }
 })
