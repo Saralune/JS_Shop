@@ -45,46 +45,45 @@ createCard(article13);
 createCard(article14);
 
 
-// //Récupération des balises pour l'affichage
-// let id1=document.getElementById("id1")
-// let id2= document.getElementById("id2")
-// let id3= document.getElementById("id3")
-// let id4=document.getElementById("id4")
-// let id5=document.getElementById("id5")
-// let id6= document.getElementById("id6")
-// let id7=document.getElementById("id7").src=article1.imageUrl
-
-// //Récupération des balises pour l'affichage
-let id11 = document.getElementById("id11")
-let id12 = document.getElementById("id12")
-let id13 = document.getElementById("id13")
-let id14 = document.getElementById("id14")
-let id15 = document.getElementById("id15")
-let id16 = document.getElementById("id16")
-//let id17=document.getElementById("id17").src=article2.imageUrl
-
-// //Affichage des données 
-// id11.innerHTML=article2.idArticle
-// id12.innerHTML=article2.description
-// id13.innerHTML=article2.brand
-// id14.innerHTML=article2.unitaryPrice
-// id15.innerHTML=article2.catName
-// id16.innerHTML = article2.descriptionCat
-
 //Initialisation du local storage (panier)
 let caddy = window.localStorage;
 let caddySize = window.localStorage.length
 
+// - affichage du panier sur la page d'accueil
 let qty_cart = document.getElementById("qty-cart");
+qty_cart.innerHTML = caddySize
+
+let totalCart = document.getElementById("totalCart")
 let hr = document.getElementsByClassName('hr')
+let showCaddy = document.getElementById("idCart");
+
+// affichage du panier au click (logo)
+showCaddy.addEventListener('click', function (e) {
+    e.preventDefault()
+    console.log('click')
+    for (let i = 0; i < caddySize; i++) {
+        let obj = getArticleById(caddy.key(i))
+        createLineCart(obj)
+        totalCaddy()
+    }
+})
+
+// calcul du total panier
+function totalCaddy() {
+    let total = 0
+    for (let i = 0; i < caddySize; i++) {
+       let obj = JSON.parse(caddy.getItem(caddy.key(i)))
+        total +=obj.sum
+    }
+    totalCart.innerHTML = total + " €"
+}
+//totalCaddy()
 
 //remet le panier à 0 au rechargement de la page
-if(caddySize > 0){
-  caddy.clear();
-}
+// if(caddySize > 0){
+//   caddy.clear();
+// }
 
-// - affichage du panier sur la page d'accueil
-qty_cart.innerHTML = caddySize
 
 function getArticleById(id) {
     for (let i = 0; i < listArticles.length; i++) {
@@ -95,28 +94,23 @@ function getArticleById(id) {
     };
 }
 
-//console.log(getArticleById(11))
-
 //Ajout d'un article dans le panier
 function addCaddy(id) {
     let obj = getArticleById(id)
-    createLineCart(obj)
+    if (caddy.getItem(id)) {
+        let objLocal = JSON.parse(caddy.getItem(id))
+        let qty = objLocal.qty
+        qty++
+        caddy.setItem(id, JSON.stringify({ qty: qty, sum: qty * obj.unitaryPrice }))
+    } else {
+        caddy.setItem(id, JSON.stringify({ qty: 1, sum: obj.unitaryPrice }))
+    }
 
-    caddy.setItem(id, obj)
     alert("Votre article a bien été ajouté au panier")
 
     // - affichage du panier sur la page d'accueil
-    // console.log(caddySize)
-    caddySize = window.localStorage.length
     qty_cart.innerHTML = caddySize
 
-    //Total du panier
-    //à changer en fonction du total des articles du panier///////////////////////////////
-    let totalCart = document.getElementById("totalCart")
-    let rep = parseFloat(totalCart.textContent)
-    //console.log('rep', rep)
-    let total = rep + obj.unitaryPrice
-    totalCart.innerHTML = total + " €"
 }
 
 //numéro de l'idArticle du dernier article.
@@ -184,106 +178,94 @@ function createCard(article) {
 
 function createLineCart(article) {
     let modalBody = document.getElementById("modalBody");
+    let qtyObj = JSON.parse(window.localStorage.getItem(article.idArticle))
+    let qty = qtyObj.qty
+    //div
+    let divBodyArt = document.createElement("div");
+    divBodyArt.className = "modal-body-art";
+    modalBody.appendChild(divBodyArt);
 
-    // count qty article_ligne
-    let qty = 1
+    //img art
+    let imgCart = document.createElement("img")
+    imgCart.setAttribute("src", article.imageUrl)
+    imgCart.className = "modal-img-cart col-grid-1"
+    imgCart.alt = article.description
+    divBodyArt.appendChild(imgCart);
 
-    if (window.localStorage.getItem(article.idArticle) != null) {
-        //qty++
-        //p qty
-        let pQtyCart = document.getElementById("qty" + article.idArticle)
-        let testQty = parseInt(pQtyCart.textContent)
-        //attention, pyqtyart string
-        pQtyCart.innerHTML = testQty + 1
-        console.log('qtyart', pQtyCart.innerHTML)
+    //p name
+    let pNameCart = document.createElement("p");
+    pNameCart.className = "col-grid-2"
+    pNameCart.innerHTML = article.description
+    divBodyArt.appendChild(pNameCart);
 
-    } else {
-        //div
-        let divBodyArt = document.createElement("div");
-        divBodyArt.className = "modal-body-art";
-        modalBody.appendChild(divBodyArt);
+    //p price
+    let pPriceCart = document.createElement("p");
+    pPriceCart.className = "col-grid-3 bold-blue"
+    pPriceCart.innerHTML = article.unitaryPrice + " €"
+    divBodyArt.appendChild(pPriceCart);
 
-        //img art
-        let imgCart = document.createElement("img")
-        imgCart.setAttribute("src", article.imageUrl)
-        imgCart.className = "modal-img-cart col-grid-1"
-        imgCart.alt = article.description
-        divBodyArt.appendChild(imgCart);
+    //p qty
+    let pQtyCart = document.createElement("p");
+    pQtyCart.className = "col-grid-4 bold-blue"
+    pQtyCart.id = "qty" + article.idArticle
+    pQtyCart.innerHTML = qty
+    // console.log("qty : " + qty)
+    divBodyArt.appendChild(pQtyCart);
 
-        //p name
-        let pNameCart = document.createElement("p");
-        pNameCart.className = "col-grid-2"
-        pNameCart.innerHTML = article.description
-        divBodyArt.appendChild(pNameCart);
+    //img garbage
+    let imgGarbage = document.createElement("img")
+    imgGarbage.setAttribute("src", "./img/delete.png")
+    imgGarbage.className = "col-grid-5"
+    imgGarbage.id = "000" + article.idArticle
+    console.log("imgGarbage.id : " + imgGarbage.id)
+    imgGarbage.alt = "Supprimer du panier"
+    divBodyArt.appendChild(imgGarbage);
 
-        //p price
-        let pPriceCart = document.createElement("p");
-        pPriceCart.className = "col-grid-3 bold-blue"
-        pPriceCart.innerHTML = article.unitaryPrice + " €"
-        divBodyArt.appendChild(pPriceCart);
+    //hr
+    let hrCart = document.createElement("hr")
+    hrCart.className = "hr"
+    modalBody.appendChild(hrCart)
 
-        //p qty
-        let pQtyCart = document.createElement("p");
-        pQtyCart.className = "col-grid-4 bold-blue"
-        pQtyCart.id="qty" + article.idArticle
-        pQtyCart.innerHTML = qty
-        console.log("qty : " + qty)
-        divBodyArt.appendChild(pQtyCart);
-
-        //img garbage
-        let imgGarbage = document.createElement("img")
-        imgGarbage.setAttribute("src", "./img/delete.png")
-        imgGarbage.className = "col-grid-5"
-        imgGarbage.id = "000" + article.idArticle
-        console.log("imgGarbage.id : " + imgGarbage.id)
-        imgGarbage.alt = "Supprimer du panier"
-        divBodyArt.appendChild(imgGarbage);
-
-        //hr
-        let hrCart = document.createElement("hr")
-        hrCart.className = "hr"
-        modalBody.appendChild(hrCart)
-    }
 
 }
 
 
-function deleteLineCaddy(){
-  document.addEventListener('click', function(e){
-    let divArtCart = document.getElementsByClassName("modal-body-art")
-    
-    if(e.target && e.target.className == "col-grid-5"){ 
-      //récupère l'id de l'article à supprimer
-      let idToRemove = e.target.id.substr(3);
+// function deleteLineCaddy(){
+//   document.addEventListener('click', function(e){
+//     let divArtCart = document.getElementsByClassName("modal-body-art")
 
-      ////////////////
-      //ATtenion, ne fonctionne pas si je supprime un article et qu'il y en a moins que prévu !
-      //à rectifier
+//     if(e.target && e.target.className == "col-grid-5"){ 
+//       //récupère l'id de l'article à supprimer
+//       let idToRemove = e.target.id.substr(3);
+
+//       ////////////////
+//       //ATtenion, ne fonctionne pas si je supprime un article et qu'il y en a moins que prévu !
+//       //à rectifier
 
 
-      divArtCart[idToRemove - 1].remove() //j'enlève 1 pour retomber sur l'index 
-      hr[idToRemove - 1].remove()
-      caddy.removeItem(idToRemove);
+//       divArtCart[idToRemove - 1].remove() //j'enlève 1 pour retomber sur l'index 
+//       hr[idToRemove - 1].remove()
+//       caddy.removeItem(idToRemove);
 
-      //create alert "article supprimé"
-      let divOk = document.createElement('div')
-      divOk.className = "alert alert-success"
-      divOk.role = "alert"
-      divOk.innerHTML = "L'article a bien été supprimé"
-      document.getElementById("modalBody").appendChild(divOk)
-      //l'alerte disparait au bout de 5 secondes
-      setInterval(function() {
-        divOk.remove()
-      }, 5000)
-       ////////////////
-      //insertBefore(document.getElementsByClassName('hr')[0])
+//       //create alert "article supprimé"
+//       let divOk = document.createElement('div')
+//       divOk.className = "alert alert-success"
+//       divOk.role = "alert"
+//       divOk.innerHTML = "L'article a bien été supprimé"
+//       document.getElementById("modalBody").appendChild(divOk)
+//       //l'alerte disparait au bout de 5 secondes
+//       setInterval(function() {
+//         divOk.remove()
+//       }, 5000)
+//        ////////////////
+//       //insertBefore(document.getElementsByClassName('hr')[0])
 
-      //Ajouter une popup putôt que alert
-      //alert("L'article a bien été supprimé de votre panier.")
-    } 
-  })
-}
-deleteLineCaddy()
+//       //Ajouter une popup putôt que alert
+//       //alert("L'article a bien été supprimé de votre panier.")
+//     } 
+//   })
+// }
+//deleteLineCaddy()
 
 //document.getElementById('mycheckbox').checked=true;
 let mat_info = document.getElementsByClassName("mat-info")
@@ -320,8 +302,8 @@ catMatInfo.addEventListener('click', function () {
     }
 
     if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-        for (let i=0; i<listArticles.length;i++){
-            listArticles[i].style.display="flex"
+        for (let i = 0; i < listArticles.length; i++) {
+            listArticles[i].style.display = "flex"
         }
     }
 
@@ -354,9 +336,9 @@ catPc.addEventListener('click', function () {
     }
 
     if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-       for (let i=0; i<listArticles.length;i++){
-           listArticles[i].style.display="flex"
-       }
+        for (let i = 0; i < listArticles.length; i++) {
+            listArticles[i].style.display = "flex"
+        }
     }
 })
 
@@ -389,8 +371,8 @@ catLog.addEventListener('click', function () {
     }
 
     if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-        for (let i=0; i<listArticles.length;i++){
-            listArticles[i].style.display="flex"
+        for (let i = 0; i < listArticles.length; i++) {
+            listArticles[i].style.display = "flex"
         }
     }
 
@@ -422,8 +404,8 @@ catSmart.addEventListener('click', function () {
     }
 
     if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-        for (let i=0; i<listArticles.length;i++){
-            listArticles[i].style.display="flex"
+        for (let i = 0; i < listArticles.length; i++) {
+            listArticles[i].style.display = "flex"
         }
     }
 
