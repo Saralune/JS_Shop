@@ -23,6 +23,8 @@ let pc = document.getElementsByClassName("pc")
 let logiciel = document.getElementsByClassName("logiciel")
 let smartphone = document.getElementsByClassName("smartphone")
 
+let allArticles = document.getElementsByClassName("card")
+
 // //Construction des articles
 let listArticles = []
 let article1 = new Article(1, "Souris", "Logitech", 85, "mat-info", "Tout matériel informatique physique en lien avec un ordinateur", "img/souris.jpg")
@@ -145,7 +147,7 @@ function validCart() {
   alert(`Commande numéro : 425 d'un montant de : ${rep} est bien validée.`)
   let modal = document.getElementById("modal")
   console.log(modal)
-  modal.style.display="none"
+  modal.style.display = "none"
   caddy.clear()
   // - affichage du panier sur la page d'accueil
   caddySize = caddy.length
@@ -294,15 +296,14 @@ document.addEventListener('click', function (e) {
   }
 })
 
-
-
 catMatInfo.addEventListener('click', function () {
 
   if (catMatInfo.checked) {
 
-    for (i = 0; i < mat_info.length; i++) {
-      mat_info[i].style.display = "flex"
-    }
+    // déjà block
+    // for (i = 0; i < mat_info.length; i++) {
+    //   mat_info[i].style.display = "block"
+    // }
 
     if (!catPc.checked) {
       for (i = 0; i < pc.length; i++) {
@@ -325,20 +326,20 @@ catMatInfo.addEventListener('click', function () {
   }
 
   if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-    for (let i = 0; i < listArticles.length; i++) {
-      listArticles[i].style.display = "flex"
+    //allArticles éléments class "card"
+    for (let i = 0; i < allArticles.length; i++) {
+      allArticles[i].style.display = "block"
     }
   }
-
 })
 
 catPc.addEventListener('click', function () {
 
   if (catPc.checked) {
 
-    for (i = 0; i < pc.length; i++) {
-      pc[i].style.display = "flex"
-    }
+    // for (i = 0; i < pc.length; i++) {
+    //   pc[i].style.display = "block"
+    // }
     if (!catMatInfo.checked) {
       for (i = 0; i < mat_info.length; i++) {
         mat_info[i].style.display = "none"
@@ -359,21 +360,20 @@ catPc.addEventListener('click', function () {
   }
 
   if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-    for (let i = 0; i < listArticles.length; i++) {
-      listArticles[i].style.display = "flex"
+    //allArticles éléments class "card"
+    for (let i = 0; i < allArticles.length; i++) {
+      allArticles[i].style.display = "block"
     }
   }
 })
-
-
 
 catLog.addEventListener('click', function () {
 
   if (catLog.checked) {
 
-    for (i = 0; i < logiciel.length; i++) {
-      logiciel[i].style.display = "flex"
-    }
+    // for (i = 0; i < logiciel.length; i++) {
+    //   logiciel[i].style.display = "block"
+    // }
     if (!catMatInfo.checked) {
       for (i = 0; i < mat_info.length; i++) {
         mat_info[i].style.display = "none"
@@ -394,20 +394,19 @@ catLog.addEventListener('click', function () {
   }
 
   if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-    for (let i = 0; i < listArticles.length; i++) {
-      listArticles[i].style.display = "flex"
+    //allArticles éléments class "card"
+    for (let i = 0; i < allArticles.length; i++) {
+      allArticles[i].style.display = "block"
     }
   }
-
-
 })
 
 catSmart.addEventListener('click', function () {
 
   if (catSmart.checked) {
-    for (i = 0; i < smartphone.length; i++) {
-      smartphone[i].style.display = "flex"
-    }
+    // for (i = 0; i < smartphone.length; i++) {
+    //   smartphone[i].style.display = "block"
+    // }
 
     if (!catMatInfo.checked) {
       for (i = 0; i < mat_info.length; i++) {
@@ -427,8 +426,9 @@ catSmart.addEventListener('click', function () {
   }
 
   if (!catMatInfo.checked && !catLog.checked && !catPc.checked && !catSmart.checked) {
-    for (let i = 0; i < listArticles.length; i++) {
-      listArticles[i].style.display = "flex"
+    //allArticles éléments class "card"
+    for (let i = 0; i < allArticles.length; i++) {
+      allArticles[i].style.display = "block"
     }
   }
 })
@@ -441,7 +441,7 @@ catSmart.addEventListener('click', function () {
 // - ajouter au panier -- ok
 // - afficher la qté dans le panier -- ok
 
-// - passer commande -> alert -- à faire
-// - modifier la quantité de l'affichage du panier sur la page d'accueil -- à modifier
-// - gérer les checkbox des catégories et l'affichage qui leur correspond -- en cours
+// - passer commande ->  -- ok
+// - modifier la quantité de l'affichage du panier sur la page d'accueil -- ok
+// - gérer les checkbox des catégories et l'affichage qui leur correspond -- ok
 
